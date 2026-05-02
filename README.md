@@ -86,7 +86,7 @@ res://
 │   ├── gameplay/           ← lógica de quiz e rhythm game
 │   └── ui/                 ← scripts de menus e interfaces
 └── data/
-    └── quizzes/            ← arquivos JSON com perguntas e respostas
+	└── quizzes/            ← arquivos JSON com perguntas e respostas
 ```
 
 ---
