@@ -23,6 +23,7 @@ func _ready():
 	painel_lousa.visible = false
 	painel_pizza.visible = false
 	
+	$PainelLousa/VBox/LabelTitulo.text = "Figuras Musicais:"
 	label_semibreve.text = "Semibreve (O) = 4 tempos"
 	label_minima.text = "Mínima = 2 tempos"
 	label_seminima.text = "Semínima = 1 tempo"
