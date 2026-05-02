@@ -33,6 +33,7 @@ func _ready():
 	label_dica.text = "Dica: use os dedos da mão para contar!"
 	
 	texto_pizza.text = FALAS[1]
+	texto_pizza.visible = false
 	
 	fala_label.text = FALAS[0]
 
