@@ -1,1 +1,161 @@
-null
+{
+	"id": "ato_ii",
+	"questions": [
+		{
+			"id": "q01",
+			"level": "Iniciante",
+			"hint": "Lembre-se que a Mínima é a primeira divisão da Semibreve.",
+			"text": "Mastro Bit diz: \"E aí, novato! Vamos aquecer os circuitos? Se uma Semibreve vale 4 tempos, quanto valem duas Mínimas somadas?\"",
+			"options": [
+				{
+					"label": "A",
+					"text": "2 tempos",
+					"correct": false,
+					"feedback": "Erro de sistema! Isso seria o valor de apenas uma Mínima, não a soma de duas. Tente de novo!"
+				},
+				{
+					"label": "B",
+					"text": "4 tempos",
+					"correct": true,
+					"feedback": "Computado! Mínima vale metade de uma Semibreve (2 tempos), portanto 2 + 2 = 4. Mandou bem!"
+				},
+				{
+					"label": "C",
+					"text": "8 tempos",
+					"correct": false,
+					"feedback": "Calma lá, processador lento! Isso seria a soma de duas Semibreves. Mínimas são menores!"
+				}
+			]
+		},
+		{
+			"id": "q02",
+			"level": "Iniciante",
+			"hint": "Pense na Semínima como a unidade de tempo padrão de um compasso quaternário.",
+			"text": "Maestro Bit processando:  \"Se eu dividir uma Mínima (2 tempos) por duas Semínimas, qual o valor de cada Semínima?\"",
+			"options": [
+				{
+					"label": "A",
+					"text": "0,5 tempo",
+					"correct": false,
+					"feedback": "Negativo! Esse valor corresponde à Colcheia. A Semínima é um pouco 'maior' que isso."
+				},
+				{
+					"label": "B",
+					"text": "2 tempos",
+					"correct": false,
+					"feedback": "Bug detectado! Se cada uma valesse 2, o total seria 4, ultrapassando o valor da Mínima original."
+				},
+				{
+					"label": "C",
+					"text": "1 tempo",
+					"correct": true,
+					"feedback": "Massa! A Semínima é a quarta parte da Semibreve e exatamente metade da Mínima."
+				}
+			]
+		},
+		{
+			"id": "q03",
+			"level": "Médio",
+			"hint": "Para facilitar, some os valores do maior para o menor: 4, depois somar 2, depois somar 1.",
+			"text": "Mastro Bit desafia: \"Radical! Qual o resultado desta conta: 1 Semibreve + 1 Mínima + 1 Semínima?\"",
+			"options": [
+				{
+					"label": "A",
+					"text": "7 tempos",
+					"correct": true,
+					"feedback": "Cálculo exato! A conta é 4 + 2 + 1 = 7. Você está virando um mestre!"
+				},
+				{
+					"label": "B",
+					"text": "6 tempos",
+					"correct": false,
+					"feedback": "Quase! Você esqueceu de somar o valor da Semínima ou errou a base da Semibreve."
+				},
+				{
+					"label": "C",
+					"text": "8 tempos",
+					"correct": false,
+					"feedback": "Passou do limite! Quase uma Semibreve dobrada, mas a soma dessas três figuras não chega lá."
+				}
+			]
+		},
+		{
+			"id": "q04",
+			"level": "Médio",
+			"hint": "A Colcheia é a metade da Semínima, que por sua vez é a metade da Mínima. Faça a conta inversa!",
+			"text": "Maestro Bit analisa: \"Quantas Colcheias eu preciso para preencher o tempo de uma Mínima?\"",
+			"options": [
+				{
+					"label": "A",
+					"text": "4 Colcheias",
+					"correct": true,
+					"feedback": "Precisão digital! Cada Colcheia vale 0,5 tempo. Logo, 4 x 0,5 = 2 tempos (o valor da Mínima)."
+				},
+				{
+					"label": "B",
+					"text": "2 Colcheias",
+					"correct": false,
+					"feedback": "Dados insuficientes! Duas colcheias formam apenas 1 tempo (uma Semínima). Falta metade!"
+				},
+				{
+					"label": "C",
+					"text": "8 Colcheias",
+					"correct": false,
+					"feedback": "Overload! Oito colcheias equivalem a uma Semibreve inteira (tempos)."
+				}
+			]
+		},
+		{
+			"id": "q05",
+			"level": "Avançado - Lógica de Compasso",
+			"hint": " O que falta para chegar a 4 se você já tem 2?",
+			"text": "Maestro Bit pergunta: \"Se um compasso tem 4 tempos, e eu já coloquei duas Semínimas, qual figura completa o compasso?\"",
+			"options": [
+				{
+					"label": "A",
+					"text": "Uma Semibreve",
+					"correct": false,
+					"feedback": "Vai travar o jogo! A Semibreve sozinha já ocupa os 4 tempos, o que estouraria o limite do compasso atual."
+				},
+				{
+					"label": "B",
+					"text": "Uma Colcheia",
+					"correct": false,
+					"feedback": "Ficou um buraco no som! Faltariam ainda 1,5 tempos para completar o compasso."
+				},
+				{
+					"label": "C",
+					"text": "Uma Mínima",
+					"correct": true,
+					"feedback": "Ritmo perfeito! Duas Semínimas ocupam 2 tempos. Falta uma figura de 2 tempos para fechar os 4."
+				}
+			]
+		},
+		{
+			"id": "q06",
+			"level": "Hardcore - Mistura de Operações",
+			"hint": "Converta tudo para números decimais (0,5 / 1,0 / 2,0) e veja se a soma fecha em 4,0.",
+			"text": "Maestro Bit em pane: \"Preciso de 4 tempos exatos. Qual destas combinações está CORRETA?\"",
+			"options": [
+				{
+					"label": "A",
+					"text": "1 Semínima + 4 Colcheias",
+					"correct": false,
+					"feedback": "Sem som! Isso resulta em apenas 3 tempos (1 + 2 = 3). O som vai cortar!"
+				},
+				{
+					"label": "B",
+					"text": "1 Mínima + 4 Colcheias",
+					"correct": true,
+					"feedback": "Download concluído! 2 + (4 x 0,5) = 2 + 2 = 4. Combinação pesada!"
+				},
+				{
+					"label": "C",
+					"text": "2 Mínimas + 2 Colcheias",
+					"correct": false,
+					"feedback": "istema instável! Isso resulta em 5 tempos (4 + 1 = 5), o que bugaria a pista."
+				}
+			]
+		}
+	]
+}
