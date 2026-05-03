@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dc4voq6f13h0v"]
+
+[ext_resource type="Script" uid="uid://wwv2bapvcaat" path="res://scripts/gameplay/prologo.gd" id="1_2cgra"]
+
+[node name="Prologo" type="Node2D" unique_id=1599470521 node_paths=PackedStringArray("_hud")]
+script = ExtResource("1_2cgra")
+_hud = NodePath("HUD")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1189379909]
