@@ -11,7 +11,12 @@ config_version=5
 [application]
 
 config/name="matematica-musical"
+run/main_scene="uid://cemlielf80f2"
 config/features=PackedStringArray("4.6", "GL Compatibility")
+
+[autoload]
+
+QuizManager="*uid://ck2t63xv4d6pb"
 
 [physics]
 
