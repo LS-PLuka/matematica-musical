@@ -29,6 +29,14 @@ offset_top = 90.0
 offset_right = 41.0
 offset_bottom = 130.0
 
+[node name="ButtonContinue" type="Button" parent="." unique_id=426948569]
+visible = false
+layout_mode = 0
+offset_left = 216.0
+offset_top = 131.0
+offset_right = 224.0
+offset_bottom = 139.0
+
 [node name="HBoxContainer" type="Control" parent="." unique_id=1012685102]
 anchors_preset = 0
 offset_top = 46.0

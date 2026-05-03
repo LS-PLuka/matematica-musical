@@ -42,7 +42,6 @@ func submit_answer(label: String):
 		if opt["correct"]:
 			answer_correct.emit(opt["feedback"])
 			_current_index += 1
-			_load_current()
 		else:
 			answer_wrong.emit(opt["feedback"])
 		return

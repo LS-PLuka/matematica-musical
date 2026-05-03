@@ -9,6 +9,9 @@ func _ready() -> void:
 	$HBoxContainer/ButtonA.pressed.connect(func(): QuizManager.submit_answer("A"))
 	$HBoxContainer/ButtonB.pressed.connect(func(): QuizManager.submit_answer("B"))
 	$HBoxContainer/ButtonC.pressed.connect(func(): QuizManager.submit_answer("C"))
+	$ButtonContinue.visible = false
+	$ButtonContinue.text = "Continuar"
+	$ButtonContinue.pressed.connect(_on_continue_pressed)
 	pass
 
 func _on_question_loaded(data: Dictionary) -> void:
@@ -21,10 +24,25 @@ func _on_question_loaded(data: Dictionary) -> void:
 
 func _on_answer_correct(feedback: String) -> void:
 	$FeedbackLabel.text = feedback
+	$FeedbackLabel.visible = true
+	$ButtonContinue.visible = true
+	$HBoxContainer/ButtonA.visible = false 
+	$HBoxContainer/ButtonB.visible = false
+	$HBoxContainer/ButtonC.visible = false
+	QuizManager._load_current()
+	pass
+
+func _on_continue_pressed() -> void:
+	$ButtonContinue.visible = false
+	$FeedbackLabel.visible = false
+	$HBoxContainer/ButtonA.visible = true 
+	$HBoxContainer/ButtonB.visible = true
+	$HBoxContainer/ButtonC.visible = true
 	pass
 
 func _on_answer_wrong(feedback: String) -> void:
 	$FeedbackLabel.text = feedback
+	$FeedbackLabel.visible = true
 	pass
 
 func _on_quiz_completed() -> void:
