@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://cemlielf80f2"]
+
+[ext_resource type="Script" uid="uid://dlold6ioc7u0v" path="res://scenes/gameplay/quiz/quiz_screen.gd" id="1_pe2i8"]
+
+[node name="QuizScreen" type="Control" unique_id=566099289]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pe2i8")
+
+[node name="QuizLabel" type="Label" parent="." unique_id=2076973503]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HintLabel" type="Label" parent="." unique_id=522329104]
+layout_mode = 0
+offset_top = 48.0
+offset_right = 40.0
+offset_bottom = 88.0
+
+[node name="FeedbackLabel" type="Label" parent="." unique_id=768679842]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 90.0
+offset_right = 41.0
+offset_bottom = 130.0
+
+[node name="HBoxContainer" type="Control" parent="." unique_id=1012685102]
+anchors_preset = 0
+offset_top = 46.0
+offset_right = 40.0
+offset_bottom = 86.0
+
+[node name="ButtonA" type="Button" parent="HBoxContainer" unique_id=1724710191]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 223.0
+offset_right = 41.0
+offset_bottom = 263.0
+
+[node name="ButtonB" type="Button" parent="HBoxContainer" unique_id=565014210]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 113.0
+offset_right = 43.0
+offset_bottom = 153.0
+
+[node name="ButtonC" type="Button" parent="HBoxContainer" unique_id=1312024796]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 167.0
+offset_right = 42.0
+offset_bottom = 207.0
