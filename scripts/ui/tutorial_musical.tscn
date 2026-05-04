@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://clygcl31yllbx"]
+
+[ext_resource type="Script" uid="uid://c71e3mxkd8ppg" path="res://scripts/ui/tutorial_musical.gd" id="1_u4ce6"]
+
+[node name="TutorialMusical" type="Node2D" unique_id=1734342812]
+script = ExtResource("1_u4ce6")
+
+[node name="DialogoMaestro" type="Node2D" parent="." unique_id=3504357]
+
+[node name="TexturaMaestro" type="Sprite2D" parent="DialogoMaestro" unique_id=185700564]
+
+[node name="Fala" type="Label" parent="DialogoMaestro" unique_id=1153138501]
+offset_left = 20.0
+offset_top = 450.0
+offset_right = 920.0
+offset_bottom = 530.0
+autowrap_mode = 2
+
+[node name="PainelLousa" type="Control" parent="." unique_id=1322575830]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="FundoLousa" type="ColorRect" parent="PainelLousa" unique_id=289205968]
+layout_mode = 0
+offset_left = 276.0
+offset_top = 100.0
+offset_right = 876.0
+offset_bottom = 400.0
+color = Color(0.1764706, 0.3529412, 0.15294118, 1)
+
+[node name="VBox" type="VBoxContainer" parent="PainelLousa" unique_id=1332117001]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 120.0
+offset_right = 360.0
+offset_bottom = 224.0
+
+[node name="LabelTitulo" type="Label" parent="PainelLousa/VBox" unique_id=792707262]
+layout_mode = 2
+text = "Figuras Musicais:"
+
+[node name="LabelSemiBreve" type="Label" parent="PainelLousa/VBox" unique_id=797703208]
+layout_mode = 2
+
+[node name="LabelMinima" type="Label" parent="PainelLousa/VBox" unique_id=1296067410]
+layout_mode = 2
+
+[node name="LabelSemiMinima" type="Label" parent="PainelLousa/VBox" unique_id=809700418]
+layout_mode = 2
+
+[node name="LabelColcheia" type="Label" parent="PainelLousa/VBox" unique_id=947445880]
+layout_mode = 2
+
+[node name="LabelDica" type="Label" parent="PainelLousa/VBox" unique_id=5954498]
+layout_mode = 2
+
+[node name="PainelPizza" type="Control" parent="." unique_id=506637508]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ImgPizza" type="Sprite2D" parent="PainelPizza" unique_id=1738568277]
+
+[node name="TextoPizza" type="Label" parent="PainelPizza" unique_id=142725970]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="BotaoAvancar" type="Button" parent="." unique_id=1904135336]
+offset_left = 500.0
+offset_top = 550.0
+offset_right = 571.0
+offset_bottom = 581.0
+text = "Avançar"
+
+[connection signal="pressed" from="BotaoAvancar" to="." method="avancar"]
