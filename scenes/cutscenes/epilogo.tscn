@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dh7s816knflky"]
+
+[ext_resource type="Script" uid="uid://2ft5qpiu350a" path="res://scripts/cutscenes/epilogo.gd" id="1_7l8jh"]
+[ext_resource type="VideoStream" uid="uid://cy6bhkxarlrsh" path="res://assets/video/abertura.ogv" id="1_n23s4"]
+
+[node name="Epilogo" type="Control" unique_id=611444408]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7l8jh")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=2031250885]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("1_n23s4")
+expand = true
