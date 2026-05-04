@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 [autoload]
 
 SceneManager="*uid://ddrjfw1uoau"
+QuizManager="*uid://ck2t63xv4d6pb"
 
 [physics]
 
