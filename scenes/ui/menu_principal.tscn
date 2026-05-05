@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://cgf468owmotrg"]
 
+[ext_resource type="Script" uid="uid://be13303oqhw54" path="res://scripts/ui/menu_principal.gd" id="1_g2cyh"]
 [ext_resource type="Shader" uid="uid://cxe1c4usp5pa4" path="res://assets/shaders/VHS.gdshader" id="1_wedc3"]
-[ext_resource type="Texture2D" uid="uid://bv608ulb3d06f" path="res://assets/sprites/ui/logo_matemusica.svg" id="2_c2n5p"]
+[ext_resource type="Texture2D" uid="uid://3s66iti1rpd7" path="res://assets/sprites/ui/logo_matemusica.svg" id="2_c2n5p"]
+[ext_resource type="FontFile" uid="uid://df6u56sejjrlt" path="res://assets/fonts/joystix monospace.otf" id="3_fh6ra"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xdvgc"]
 shader = ExtResource("1_wedc3")
@@ -28,15 +30,18 @@ shader_parameter/vignette_intensity = 0.4
 shader_parameter/vignette_opacity = 0.5
 
 [sub_resource type="Theme" id="Theme_upctu"]
+default_font = ExtResource("3_fh6ra")
 default_font_size = 30
 
-[node name="Control" type="Control" unique_id=1226860024]
+[node name="Control" type="Control" unique_id=1226860024 node_paths=PackedStringArray("start")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_g2cyh")
+start = NodePath("MargemBotoes/Botoes/Start")
 
 [node name="VHSeffect" type="CanvasLayer" parent="." unique_id=60540774]
 
@@ -48,41 +53,59 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MateMusica" type="TextureRect" parent="." unique_id=1349193055]
-texture_filter = 1
+[node name="MargemTitulo" type="MarginContainer" parent="." unique_id=1421673294]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -122.5
-offset_top = -194.225
-offset_right = 122.5
-offset_bottom = -148.225
+offset_left = -122.0
+offset_top = 74.0
+offset_right = 123.0
+offset_bottom = 120.0
 grow_horizontal = 2
-grow_vertical = 2
 scale = Vector2(1.765, 1.765)
-pivot_offset = Vector2(122.5, 23)
+pivot_offset = Vector2(122.5, 0)
+
+[node name="MateMusica" type="TextureRect" parent="MargemTitulo" unique_id=1349193055]
+texture_filter = 1
+layout_mode = 2
 texture = ExtResource("2_c2n5p")
 stretch_mode = 2
 
-[node name="OptionsContainer" type="MarginContainer" parent="." unique_id=1393045690]
+[node name="MargemBotoes" type="MarginContainer" parent="." unique_id=1824716433]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -61.5
-offset_top = -56.125
-offset_right = 61.5
-offset_bottom = -6.125
+anchors_preset = -1
+anchor_left = 0.42200002
+anchor_top = 0.46300003
+anchor_right = 0.578
+anchor_bottom = 0.623
+offset_left = -0.14401245
+offset_top = -0.024017334
+offset_right = 0.14398193
+offset_bottom = 0.29599
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button" type="Button" parent="OptionsContainer" unique_id=367971912]
+[node name="Botoes" type="VBoxContainer" parent="MargemBotoes" unique_id=2003541430]
+layout_mode = 2
+
+[node name="Start" type="Button" parent="MargemBotoes/Botoes" unique_id=1334032795]
+texture_filter = 1
 layout_mode = 2
 theme = SubResource("Theme_upctu")
-text = "Iniciar >"
+text = "Iniciar"
 flat = true
+
+[node name="Exit" type="Button" parent="MargemBotoes/Botoes" unique_id=1116159670]
+texture_filter = 1
+layout_mode = 2
+theme = SubResource("Theme_upctu")
+text = "sair"
+flat = true
+
+[connection signal="focus_entered" from="MargemBotoes/Botoes/Start" to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="MargemBotoes/Botoes/Start" to="." method="_on_focus_exited"]
+[connection signal="pressed" from="MargemBotoes/Botoes/Start" to="." method="_on_start_pressed"]
+[connection signal="focus_entered" from="MargemBotoes/Botoes/Exit" to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="MargemBotoes/Botoes/Exit" to="." method="_on_focus_exited"]
+[connection signal="pressed" from="MargemBotoes/Botoes/Exit" to="." method="_on_exit_pressed"]
