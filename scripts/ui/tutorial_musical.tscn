@@ -74,6 +74,7 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="BotaoAvancar" type="Button" parent="." unique_id=1904135336]
+visible = false
 offset_left = 500.0
 offset_top = 550.0
 offset_right = 571.0

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dlifvh2gup4i"]
 
 [ext_resource type="Script" path="res://scripts/ui/dialog_screen.gd" id="1_okma6"]
-[ext_resource type="Texture2D" uid="uid://cly3jq736j31y" path="res://assets/sprites/characters/portrait_temporary_1.png" id="1_ttimm"]
+[ext_resource type="Texture2D" uid="uid://dnw7itoxtbm26" path="res://assets/sprites/characters/portrait_temporary_1.png" id="1_ttimm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_okma6"]
 line_spacing = 0.0
