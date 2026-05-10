@@ -58,4 +58,4 @@ func avancar():
 		6:
 			mostrar_dialogo(fala_atual)
 		7:
-			get_tree().change_scene_to_file("res://scenes/gameplay/quiz/quiz.tscn")
+			get_tree().change_scene_to_file("res://scenes/gameplay/quiz/quiz_screen.tscn")
