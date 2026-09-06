@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://uqcrn4ls7plu"]
+
+[ext_resource type="Script" uid="uid://b0p57jvhdwupw" path="res://scripts/gameplay/rhythm/rhythm.gd" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://6upg67kkulxq" path="res://scenes/gameplay/rhythm/arrow_handle.tscn" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://dbn3kenq1qidu" path="res://scripts/gameplay/rhythm/ui_script.gd" id="3_sugp2"]
+
+[node name="Main" type="Node2D" unique_id=1773684907 node_paths=PackedStringArray("falling_arrows", "arrows", "control")]
+script = ExtResource("1_o5qli")
+falling_arrows = NodePath("falling_arrows")
+arrows = NodePath("arrows")
+control = NodePath("CanvasLayer/Control")
+
+[node name="arrows" type="Node2D" parent="." unique_id=840725150]
+
+[node name="up" parent="arrows" unique_id=1333944790 instance=ExtResource("2_0wfyh")]
+position = Vector2(496, 448)
+
+[node name="down" parent="arrows" unique_id=1496376037 instance=ExtResource("2_0wfyh")]
+position = Vector2(640, 448)
+
+[node name="sprite" parent="arrows/down" index="1" unique_id=1460017687]
+rotation = 1.5707964
+
+[node name="left" parent="arrows" unique_id=994103875 instance=ExtResource("2_0wfyh")]
+position = Vector2(352, 448)
+
+[node name="sprite" parent="arrows/left" index="1" unique_id=1460017687]
+rotation = -3.1415927
+
+[node name="right" parent="arrows" unique_id=403823864 instance=ExtResource("2_0wfyh")]
+position = Vector2(784, 448)
+
+[node name="sprite" parent="arrows/right" index="1" unique_id=1460017687]
+rotation = 0.0
+
+[node name="falling_arrows" type="Node2D" parent="." unique_id=1975279513]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1930153717]
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=76749654 node_paths=PackedStringArray("score_value_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_sugp2")
+score_value_label = NodePath("score_value")
+
+[node name="score" type="Label" parent="CanvasLayer/Control" unique_id=2094860926]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.058159724
+anchor_top = 0.10339506
+anchor_right = 0.19010417
+anchor_bottom = 0.21141975
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 28
+text = "Pontuação:"
+metadata/_edit_use_anchors_ = true
+
+[node name="score_value" type="Label" parent="CanvasLayer/Control" unique_id=1032078085]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.19878472
+anchor_top = 0.10339506
+anchor_right = 0.31163195
+anchor_bottom = 0.21141975
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 28
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="child_entered_tree" from="falling_arrows" to="." method="_on_falling_arrows_child_entered_tree"]
+
+[editable path="arrows/down"]
+[editable path="arrows/left"]
+[editable path="arrows/right"]

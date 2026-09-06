@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://doigxdyl6f2ss"]
+
+[ext_resource type="Script" uid="uid://j2ex85qu6vjm" path="res://scripts/gameplay/rhythm/arrow.gd" id="1_su86p"]
+[ext_resource type="Texture2D" uid="uid://dnt7xg4jwu7x5" path="res://assets/sprites/ui/arrow_sheet.png" id="2_su86p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uiv75"]
+size = Vector2(128, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ebum8"]
+size = Vector2(128, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tefeu"]
+size = Vector2(128, 74)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o6xl0"]
+size = Vector2(128, 128)
+
+[node name="falling_arrow" type="StaticBody2D" unique_id=1311660835]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_su86p")
+
+[node name="collision" type="CollisionShape2D" parent="." unique_id=836307795]
+visible = false
+shape = SubResource("RectangleShape2D_uiv75")
+
+[node name="sprite" type="Sprite2D" parent="." unique_id=959430910]
+scale = Vector2(4.6, 4.6)
+texture = ExtResource("2_su86p")
+hframes = 4
+vframes = 5
+
+[node name="perfect" type="Area2D" parent="." unique_id=1427502367]
+collision_mask = 16
+
+[node name="collision" type="CollisionShape2D" parent="perfect" unique_id=966059605]
+shape = SubResource("RectangleShape2D_ebum8")
+
+[node name="good" type="Area2D" parent="." unique_id=669138342]
+collision_layer = 2
+collision_mask = 32
+
+[node name="collision" type="CollisionShape2D" parent="good" unique_id=6099224]
+shape = SubResource("RectangleShape2D_tefeu")
+debug_color = Color(0.8326119, 0.32401386, 0.57119954, 0.41960785)
+
+[node name="ok" type="Area2D" parent="." unique_id=2011344949]
+collision_layer = 4
+collision_mask = 32
+
+[node name="collision" type="CollisionShape2D" parent="ok" unique_id=1684910424]
+shape = SubResource("RectangleShape2D_o6xl0")
+debug_color = Color(0.26935926, 0.6222119, 0.3460361, 0.41960785)
+
+[connection signal="area_entered" from="perfect" to="." method="_on_perfect_area_entered"]
+[connection signal="area_exited" from="perfect" to="." method="_on_perfect_area_exited"]
+[connection signal="area_entered" from="good" to="." method="_on_good_area_entered"]
+[connection signal="area_exited" from="good" to="." method="_on_good_area_exited"]
+[connection signal="area_entered" from="ok" to="." method="_on_ok_area_entered"]
+[connection signal="area_exited" from="ok" to="." method="_on_ok_area_exited"]
