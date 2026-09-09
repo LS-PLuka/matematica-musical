@@ -45,6 +45,7 @@ func check_arrow_pressed(arrow):
 		var falling_arrow_in_contact = perfect.get_overlapping_areas()[0].get_parent()
 		
 		control.update_score(100)
+		control.update_last_state("PERFECT")
 		print("Pressed at perfect")
 		
 		falling_arrow_in_contact.find_child("sprite").self_modulate = Color("#75dede")
@@ -55,9 +56,11 @@ func check_arrow_pressed(arrow):
 		if falling_arrow_in_contact.state == "GOOD":
 			print("Pressed at ", falling_arrow_in_contact.state)
 			control.update_score(60)
+			control.update_last_state("GOOD")
 		else:
 			print("Pressed at ", falling_arrow_in_contact.state)
 			control.update_score(30)
+			control.update_last_state("OK")
 		
 		
 		falling_arrow_in_contact.find_child("sprite").self_modulate = Color("#75dede")
