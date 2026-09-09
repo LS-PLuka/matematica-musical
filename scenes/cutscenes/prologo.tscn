@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dc4voq6f13h0v"]
+
+[ext_resource type="Script" uid="uid://d08vrwiei85kl" path="res://scripts/cutscenes/prologo.gd" id="1_cqf1j"]
+[ext_resource type="VideoStream" uid="uid://cy6bhkxarlrsh" path="res://assets/video/abertura.ogv" id="2_cqf1j"]
+[ext_resource type="Texture2D" uid="uid://xhs8877xn2vc" path="res://assets/images/background-quarto.jpg" id="2_vvg02"]
+
+[node name="Prologo" type="Control" unique_id=1372092922]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cqf1j")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1122060669]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -192.0
+offset_right = 192.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_vvg02")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=896302857]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("2_cqf1j")
+expand = true
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1329960658]

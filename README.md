@@ -189,12 +189,12 @@ O objetivo do alfa é ter o **fluxo principal completo e jogável**. Sem polimen
 | Sprint | Entrega | Branch | Status |
 |---|---|---|---|
 | 0 | Setup, Git Flow, estrutura de pastas | — | ✅ Concluído |
-| 1 | Menu principal funcional | `feature/menu-principal` | 🔄 Em andamento |
+| 1 | Menu principal funcional | `feature/menu-principal` | ✅ Concluído |
 | 2 | Sistema de diálogo + prólogo | `feature/sistema-dialogo` | ⏳ Pendente |
 | 3 | Tutorial do Maestro Bit | `feature/tutorial-musical` | ⏳ Pendente |
 | 4 | Sistema de quiz completo | `feature/sistema-quiz` | ⏳ Pendente |
 | 5 | Rhythm game funcional | `feature/rhythm-game` | ⏳ Pendente |
-| 6 | Cutscenes: abertura, epílogo, créditos | `feature/cutscenes` | ⏳ Pendente |
+| 6 | Cutscenes: abertura, epílogo, créditos | `feature/cutscenes` | 🔄 Em andamento |
 | 7 | Integração do fluxo completo | `feature/integracao-alfa` | ⏳ Pendente |
 | 8 | Testes, ajustes e build do alfa | — | ⏳ Pendente |
 
