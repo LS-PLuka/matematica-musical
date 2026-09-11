@@ -3,6 +3,44 @@
 [ext_resource type="Script" uid="uid://b0p57jvhdwupw" path="res://scripts/gameplay/rhythm/rhythm.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://6upg67kkulxq" path="res://scenes/gameplay/rhythm/arrow_handle.tscn" id="2_0wfyh"]
 [ext_resource type="Script" uid="uid://dbn3kenq1qidu" path="res://scripts/gameplay/rhythm/ui_script.gd" id="3_sugp2"]
+[ext_resource type="FontFile" uid="uid://df6u56sejjrlt" path="res://assets/fonts/joystix monospace.otf" id="4_6bb1s"]
+
+[sub_resource type="Animation" id="Animation_6bb1s"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.25, 1.25)]
+}
+
+[sub_resource type="Animation" id="Animation_7vo1m"]
+resource_name = "pulse"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1.25, 1.25), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_alfui"]
+_data = {
+&"RESET": SubResource("Animation_6bb1s"),
+&"pulse": SubResource("Animation_7vo1m")
+}
 
 [node name="Main" type="Node2D" unique_id=1773684907 node_paths=PackedStringArray("falling_arrows", "arrows", "control")]
 script = ExtResource("1_o5qli")
@@ -37,7 +75,7 @@ rotation = 0.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1930153717]
 
-[node name="Control" type="Control" parent="CanvasLayer" unique_id=76749654 node_paths=PackedStringArray("score_value_label")]
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=76749654 node_paths=PackedStringArray("score_value_label", "last_state", "animation")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -46,6 +84,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_sugp2")
 score_value_label = NodePath("score_value")
+last_state = NodePath("last_state")
+animation = NodePath("last_state/animation")
 
 [node name="score" type="Label" parent="CanvasLayer/Control" unique_id=2094860926]
 layout_mode = 1
@@ -72,6 +112,26 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 28
 text = "0"
 metadata/_edit_use_anchors_ = true
+
+[node name="last_state" type="Label" parent="CanvasLayer/Control" unique_id=1673309836]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.048611112
+anchor_top = 0.19753087
+anchor_right = 0.23090278
+anchor_bottom = 0.25000006
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.25, 1.25)
+pivot_offset = Vector2(105, 17)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="animation" type="AnimationPlayer" parent="CanvasLayer/Control/last_state" unique_id=1958305208]
+libraries/ = SubResource("AnimationLibrary_alfui")
 
 [connection signal="child_entered_tree" from="falling_arrows" to="." method="_on_falling_arrows_child_entered_tree"]
 
