@@ -19,6 +19,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(1.25, 1.25)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.10471976]
+}
 
 [sub_resource type="Animation" id="Animation_7vo1m"]
 resource_name = "pulse"
@@ -34,6 +46,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(1.25, 1.25), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 4
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.10471976, -0.10471976, 0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_alfui"]
@@ -90,12 +114,13 @@ animation = NodePath("last_state/animation")
 [node name="score" type="Label" parent="CanvasLayer/Control" unique_id=2094860926]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.058159724
-anchor_top = 0.10339506
-anchor_right = 0.19010417
-anchor_bottom = 0.21141975
+anchor_left = 0.055555556
+anchor_top = 0.09876543
+anchor_right = 0.25694445
+anchor_bottom = 0.20679012
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_6bb1s")
 theme_override_font_sizes/font_size = 28
 text = "Pontuação:"
 metadata/_edit_use_anchors_ = true
@@ -103,12 +128,13 @@ metadata/_edit_use_anchors_ = true
 [node name="score_value" type="Label" parent="CanvasLayer/Control" unique_id=1032078085]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.19878472
-anchor_top = 0.10339506
-anchor_right = 0.31163195
-anchor_bottom = 0.21141975
+anchor_left = 0.25694445
+anchor_top = 0.09876543
+anchor_right = 0.36979166
+anchor_bottom = 0.20679012
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_6bb1s")
 theme_override_font_sizes/font_size = 28
 text = "0"
 metadata/_edit_use_anchors_ = true
@@ -116,15 +142,20 @@ metadata/_edit_use_anchors_ = true
 [node name="last_state" type="Label" parent="CanvasLayer/Control" unique_id=1673309836]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.048611112
-anchor_top = 0.19753087
-anchor_right = 0.23090278
-anchor_bottom = 0.25000006
+anchor_left = 0.054
+anchor_top = 0.19100001
+anchor_right = 0.28100002
+anchor_bottom = 0.257
+offset_left = 25.792
+offset_top = 4.231987
+offset_right = -25.712036
+offset_bottom = -4.5359497
 grow_horizontal = 2
 grow_vertical = 2
+rotation = 0.10471976
 scale = Vector2(1.25, 1.25)
 pivot_offset = Vector2(105, 17)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 0, 1)
 theme_override_fonts/font = ExtResource("4_6bb1s")
 theme_override_font_sizes/font_size = 28
 horizontal_alignment = 1
