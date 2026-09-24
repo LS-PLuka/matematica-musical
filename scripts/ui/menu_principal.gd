@@ -9,7 +9,7 @@ func _ready() -> void:
 
 
 func _on_start_pressed() -> void:
-	pass
+	get_tree().change_scene_to_file("res://scenes/cutscenes/prologo.tscn")
 
 
 func _on_exit_pressed() -> void:
