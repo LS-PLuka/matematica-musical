@@ -2,7 +2,7 @@ extends Control
 
 const DIALOG_SCREEN = preload("res://scenes/ui/dialog_screen.tscn")
 const DURACAO_FADE := 0.8
-const PROXIMA_CENA := "res://scenes/gameplay/quiz/quiz_screen.tscn"
+const PROXIMA_CENA := "res://scenes/gameplay/tutorial/tutorial_musical.tscn"
 
 @onready var video_player: VideoStreamPlayer = $VideoStreamPlayer
 @onready var hud: CanvasLayer = $HUD
