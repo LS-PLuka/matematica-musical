@@ -7,6 +7,7 @@ const PROXIMA_CENA := "res://scenes/gameplay/quiz/quiz.tscn"
 @onready var painel_lousa: Control = $HUD/PainelLousa
 @onready var painel_pizza: Control = $HUD/PainelPizza
 
+# Falas do Maestro explicando a lousa que está na tela
 var _dialogo_introducao: Dictionary = {
 	0: {
 		"faceset": "res://assets/sprites/characters/maestro_portrait.png",

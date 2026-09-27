@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dwsdrcdilycem" path="res://scenes/gameplay/tutorial/tutorial_musical.gd" id="1_6bu3m"]
 [ext_resource type="Texture2D" uid="uid://xhs8877xn2vc" path="res://assets/images/background-quarto.jpg" id="2_rsx1q"]
+[ext_resource type="Texture2D" uid="uid://qm3al4ycupjn" path="res://assets/sprites/ui/lousa_tutorial.png" id="3_vdgve"]
 
 [node name="TutorialMusical" type="Control" unique_id=1121696985]
 layout_mode = 3
@@ -25,42 +26,58 @@ texture = ExtResource("2_rsx1q")
 
 [node name="PainelLousa" type="Control" parent="HUD" unique_id=1322575830]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="FundoLousa" type="ColorRect" parent="HUD/PainelLousa" unique_id=289205968]
+[node name="FundoLousa" type="TextureRect" parent="HUD/PainelLousa" unique_id=417512656]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -300.0
+offset_right = 400.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_vdgve")
+expand_mode = 1
+
+[node name="VBox" type="VBoxContainer" parent="HUD/PainelLousa/FundoLousa" unique_id=1332117001]
 layout_mode = 0
-offset_left = 276.0
+offset_left = 140.0
 offset_top = 100.0
-offset_right = 876.0
-offset_bottom = 400.0
-color = Color(0.1764706, 0.3529412, 0.15294118, 1)
+offset_right = 272.0
+offset_bottom = 258.0
 
-[node name="VBox" type="VBoxContainer" parent="HUD/PainelLousa" unique_id=1332117001]
-layout_mode = 0
-offset_left = 320.0
-offset_top = 120.0
-offset_right = 360.0
-offset_bottom = 224.0
-
-[node name="LabelTitulo" type="Label" parent="HUD/PainelLousa/VBox" unique_id=792707262]
+[node name="LabelTitulo" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=792707262]
 layout_mode = 2
 text = "Figuras Musicais:"
 
-[node name="LabelSemiBreve" type="Label" parent="HUD/PainelLousa/VBox" unique_id=797703208]
+[node name="LabelSemiBreve" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=797703208]
 layout_mode = 2
 
-[node name="LabelMinima" type="Label" parent="HUD/PainelLousa/VBox" unique_id=1296067410]
+[node name="LabelMinima" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=1296067410]
 layout_mode = 2
 
-[node name="LabelSemiMinima" type="Label" parent="HUD/PainelLousa/VBox" unique_id=809700418]
+[node name="LabelSemiMinima" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=809700418]
 layout_mode = 2
 
-[node name="LabelColcheia" type="Label" parent="HUD/PainelLousa/VBox" unique_id=947445880]
+[node name="LabelColcheia" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=947445880]
 layout_mode = 2
 
-[node name="LabelDica" type="Label" parent="HUD/PainelLousa/VBox" unique_id=5954498]
+[node name="LabelDica" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=5954498]
 layout_mode = 2
 
 [node name="PainelPizza" type="Control" parent="HUD" unique_id=506637508]
