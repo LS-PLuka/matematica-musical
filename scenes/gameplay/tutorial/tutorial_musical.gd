@@ -47,18 +47,25 @@ var _dialogo_introducao: Dictionary = {
 }
 
 func _ready() -> void:
-	# A lousa já começa visível no fundo
-	painel_lousa.visible = true
+	painel_lousa.visible = false
 	painel_pizza.visible = false
 	
-	# Chama o diálogo reutilizável por cima da lousa
 	_iniciar_dialogo(_dialogo_introducao)
 
 func _iniciar_dialogo(dados_dialogo: Dictionary) -> void:
 	var dialog: DialogScreen = DIALOG_SCREEN.instantiate()
 	dialog.data = dados_dialogo
+	
+	dialog.passou_de_fala.connect(_ao_mudar_fala)
 	dialog.dialogo_finalizado.connect(_ao_terminar_dialogo)
+	
 	hud.add_child(dialog)
+	
+func _ao_mudar_fala(indice: int) -> void:
+	painel_lousa.visible = (indice >= 4 and indice <= 6)
+	
+	# Caso o painel da pizza deva aparecer junto nas falas 5 e 6:
+	painel_pizza.visible = (indice >= 5)
 
 func _ao_terminar_dialogo() -> void:
 	SceneManager.ir_para(PROXIMA_CENA)
