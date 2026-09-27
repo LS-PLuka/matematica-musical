@@ -1,11 +1,25 @@
 [gd_scene format=3 uid="uid://clygcl31yllbx"]
 
 [ext_resource type="Script" uid="uid://dwsdrcdilycem" path="res://scenes/gameplay/tutorial/tutorial_musical.gd" id="1_6bu3m"]
+[ext_resource type="Texture2D" uid="uid://xhs8877xn2vc" path="res://assets/images/background-quarto.jpg" id="2_rsx1q"]
 
 [node name="TutorialMusical" type="Control" unique_id=1121696985]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_6bu3m")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1886308748]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_rsx1q")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=904830976]
 

@@ -1,12 +1,12 @@
 extends Control
 
 const DIALOG_SCREEN = preload("res://scenes/ui/dialog_screen.tscn")
+const PROXIMA_CENA := "res://scenes/gameplay/quiz/quiz.tscn"
 
 @onready var hud: CanvasLayer = $HUD
 @onready var painel_lousa: Control = $HUD/PainelLousa
 @onready var painel_pizza: Control = $HUD/PainelPizza
 
-# Falas do Maestro explicando a lousa que está na tela
 var _dialogo_introducao: Dictionary = {
 	0: {
 		"faceset": "res://assets/sprites/characters/maestro_portrait.png",
@@ -60,6 +60,4 @@ func _iniciar_dialogo(dados_dialogo: Dictionary) -> void:
 	hud.add_child(dialog)
 
 func _ao_terminar_dialogo() -> void:
-	# O diálogo sumiu! Agora você libera a próxima etapa do tutorial
-	print("Diálogo finalizado! Mostrando o próximo painel...")
-	painel_pizza.visible = true
+	SceneManager.ir_para(PROXIMA_CENA)
