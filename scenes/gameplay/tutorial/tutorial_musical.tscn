@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dwsdrcdilycem" path="res://scenes/gameplay/tutorial/tutorial_musical.gd" id="1_6bu3m"]
 [ext_resource type="Texture2D" uid="uid://xhs8877xn2vc" path="res://assets/images/background-quarto.jpg" id="2_rsx1q"]
 [ext_resource type="Texture2D" uid="uid://qm3al4ycupjn" path="res://assets/sprites/ui/lousa_tutorial.png" id="3_vdgve"]
+[ext_resource type="FontFile" uid="uid://df6u56sejjrlt" path="res://assets/fonts/joystix monospace.otf" id="4_ocg1i"]
 
 [node name="TutorialMusical" type="Control" unique_id=1121696985]
 layout_mode = 3
@@ -45,10 +46,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -300.0
-offset_right = 400.0
-offset_bottom = 150.0
+offset_left = -475.78
+offset_top = -366.0
+offset_right = 474.22
+offset_bottom = 184.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_vdgve")
@@ -56,14 +57,16 @@ expand_mode = 1
 
 [node name="VBox" type="VBoxContainer" parent="HUD/PainelLousa/FundoLousa" unique_id=1332117001]
 layout_mode = 0
-offset_left = 140.0
-offset_top = 100.0
-offset_right = 272.0
-offset_bottom = 258.0
+offset_left = 151.0
+offset_top = 110.0
+offset_right = 389.0
+offset_bottom = 268.0
 
 [node name="LabelTitulo" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=792707262]
 layout_mode = 2
-text = "Figuras Musicais:"
+theme_override_fonts/font = ExtResource("4_ocg1i")
+theme_override_font_sizes/font_size = 18
+text = "Figuras Musicais"
 
 [node name="LabelSemiBreve" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=797703208]
 layout_mode = 2
