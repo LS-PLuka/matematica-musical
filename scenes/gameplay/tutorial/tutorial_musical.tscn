@@ -4,6 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://xhs8877xn2vc" path="res://assets/images/background-quarto.jpg" id="2_rsx1q"]
 [ext_resource type="Texture2D" uid="uid://doixbkficfm0j" path="res://assets/images/background_lousa.png" id="3_ocg1i"]
 [ext_resource type="FontFile" uid="uid://df6u56sejjrlt" path="res://assets/fonts/joystix monospace.otf" id="4_ocg1i"]
+[ext_resource type="Texture2D" uid="uid://def3ipu1bex4k" path="res://assets/sprites/ui/semibreve.png" id="5_nsv7p"]
+[ext_resource type="Texture2D" uid="uid://ce25jw67qwrx4" path="res://assets/sprites/ui/minima.png" id="5_pu0ci"]
+[ext_resource type="Texture2D" uid="uid://c4vb8sygu2wyy" path="res://assets/sprites/ui/seminima.png" id="7_lunqk"]
+[ext_resource type="Texture2D" uid="uid://b6s7kbuyr6hd7" path="res://assets/sprites/ui/colcheia.png" id="8_n038u"]
 
 [node name="TutorialMusical" type="Control" unique_id=1121696985]
 layout_mode = 3
@@ -28,9 +32,14 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -47.0
+offset_top = -49.0
+offset_right = 52.0
+offset_bottom = 56.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_ocg1i")
+expand_mode = 1
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=904830976]
 
@@ -88,3 +97,77 @@ offset_bottom = 40.0
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="PainelNotas" type="Control" parent="HUD" unique_id=505892759]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ImgSemibreve" type="Sprite2D" parent="HUD/PainelNotas" unique_id=1320304081]
+position = Vector2(228, 286)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("5_nsv7p")
+
+[node name="ImgMinima" type="Sprite2D" parent="HUD/PainelNotas" unique_id=843852715]
+position = Vector2(447, 230.00003)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("5_pu0ci")
+
+[node name="ImgSeminina" type="Sprite2D" parent="HUD/PainelNotas" unique_id=1161225306]
+position = Vector2(669, 230)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("7_lunqk")
+
+[node name="ImgColcheia" type="Sprite2D" parent="HUD/PainelNotas" unique_id=1071963669]
+position = Vector2(900.99994, 236.00002)
+scale = Vector2(0.26, 0.26)
+texture = ExtResource("8_n038u")
+
+[node name="LabelSemibreve" type="Label" parent="HUD/PainelNotas" unique_id=439384883]
+layout_mode = 0
+offset_left = 142.0
+offset_top = 350.0
+offset_right = 306.0
+offset_bottom = 407.0
+theme_override_fonts/font = ExtResource("4_ocg1i")
+theme_override_font_sizes/font_size = 22
+text = "Semibreve
+(0.5)"
+horizontal_alignment = 1
+
+[node name="LabelMinima" type="Label" parent="HUD/PainelNotas" unique_id=859558706]
+layout_mode = 0
+offset_left = 362.0
+offset_top = 350.0
+offset_right = 526.0
+offset_bottom = 407.0
+theme_override_fonts/font = ExtResource("4_ocg1i")
+theme_override_font_sizes/font_size = 22
+text = "Mínima
+(1)"
+horizontal_alignment = 1
+
+[node name="LabelSemibreve3" type="Label" parent="HUD/PainelNotas" unique_id=370068625]
+layout_mode = 0
+offset_left = 589.0
+offset_top = 350.0
+offset_right = 753.0
+offset_bottom = 407.0
+theme_override_fonts/font = ExtResource("4_ocg1i")
+theme_override_font_sizes/font_size = 22
+text = "Semínima
+(2)"
+horizontal_alignment = 1
+
+[node name="LabelSemibreve4" type="Label" parent="HUD/PainelNotas" unique_id=1157770237]
+layout_mode = 0
+offset_left = 813.0
+offset_top = 350.0
+offset_right = 977.0
+offset_bottom = 407.0
+theme_override_fonts/font = ExtResource("4_ocg1i")
+theme_override_font_sizes/font_size = 22
+text = "Colcheia
+(4)"
+horizontal_alignment = 1
