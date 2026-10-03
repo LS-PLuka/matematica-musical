@@ -4,6 +4,8 @@ const DIALOG_SCREEN = preload("res://scenes/ui/dialog_screen.tscn")
 const PROXIMA_CENA := "res://scenes/gameplay/quiz/quiz_screen.tscn"
 
 @onready var hud: CanvasLayer = $HUD
+@onready var background: TextureRect = $Background
+@onready var background_lousa: TextureRect = $Background_lousa
 @onready var painel_lousa: Control = $HUD/PainelLousa
 @onready var painel_pizza: Control = $HUD/PainelPizza
 
@@ -46,6 +48,8 @@ var _dialogo_introducao: Dictionary = {
 }
 
 func _ready() -> void:
+	background.visible = true
+	background_lousa.visible = false
 	painel_lousa.visible = false
 	painel_pizza.visible = false
 	
@@ -59,11 +63,18 @@ func _iniciar_dialogo(dados_dialogo: Dictionary) -> void:
 	dialog.dialogo_finalizado.connect(_ao_terminar_dialogo)
 	
 	hud.add_child(dialog)
+
+func _ao_mudar_fala(i: int) -> void:
+	if i >= 4:
+		background.visible = false
+		background_lousa.visible = true
+		painel_lousa.visible = true
+	else:
+		background.visible = true
+		background_lousa.visible = false
+		painel_lousa.visible = false
 	
-func _ao_mudar_fala(indice: int) -> void:
-	painel_lousa.visible = (indice >= 4 and indice <= 6)
-	
-	painel_pizza.visible = (indice >= 5)
+	painel_pizza.visible = (i >= 5)
 
 func _ao_terminar_dialogo() -> void:
 	SceneManager.ir_para(PROXIMA_CENA)

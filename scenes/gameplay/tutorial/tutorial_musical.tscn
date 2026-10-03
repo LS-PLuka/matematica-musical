@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dwsdrcdilycem" path="res://scenes/gameplay/tutorial/tutorial_musical.gd" id="1_6bu3m"]
 [ext_resource type="Texture2D" uid="uid://xhs8877xn2vc" path="res://assets/images/background-quarto.jpg" id="2_rsx1q"]
-[ext_resource type="Texture2D" uid="uid://qm3al4ycupjn" path="res://assets/sprites/ui/lousa_tutorial.png" id="3_vdgve"]
+[ext_resource type="Texture2D" uid="uid://doixbkficfm0j" path="res://assets/images/background_lousa.png" id="3_ocg1i"]
 [ext_resource type="FontFile" uid="uid://df6u56sejjrlt" path="res://assets/fonts/joystix monospace.otf" id="4_ocg1i"]
 
 [node name="TutorialMusical" type="Control" unique_id=1121696985]
@@ -23,6 +23,15 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_rsx1q")
 
+[node name="Background_lousa" type="TextureRect" parent="." unique_id=181448676]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_ocg1i")
+
 [node name="HUD" type="CanvasLayer" parent="." unique_id=904830976]
 
 [node name="PainelLousa" type="Control" parent="HUD" unique_id=1322575830]
@@ -32,55 +41,39 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -21.0
+offset_top = -37.0
+offset_right = 19.0
+offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FundoLousa" type="TextureRect" parent="HUD/PainelLousa" unique_id=417512656]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -475.78
-offset_top = -366.0
-offset_right = 474.22
-offset_bottom = 184.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3_vdgve")
-expand_mode = 1
-
-[node name="VBox" type="VBoxContainer" parent="HUD/PainelLousa/FundoLousa" unique_id=1332117001]
+[node name="VBox" type="VBoxContainer" parent="HUD/PainelLousa" unique_id=1332117001]
 layout_mode = 0
-offset_left = 151.0
-offset_top = 110.0
-offset_right = 389.0
-offset_bottom = 268.0
+offset_left = -490.78003
+offset_top = -240.0
+offset_right = -147.78003
+offset_bottom = -73.0
 
-[node name="LabelTitulo" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=792707262]
+[node name="LabelTitulo" type="Label" parent="HUD/PainelLousa/VBox" unique_id=792707262]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_ocg1i")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 26
 text = "Figuras Musicais"
 
-[node name="LabelSemiBreve" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=797703208]
+[node name="LabelSemiBreve" type="Label" parent="HUD/PainelLousa/VBox" unique_id=797703208]
 layout_mode = 2
 
-[node name="LabelMinima" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=1296067410]
+[node name="LabelMinima" type="Label" parent="HUD/PainelLousa/VBox" unique_id=1296067410]
 layout_mode = 2
 
-[node name="LabelSemiMinima" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=809700418]
+[node name="LabelSemiMinima" type="Label" parent="HUD/PainelLousa/VBox" unique_id=809700418]
 layout_mode = 2
 
-[node name="LabelColcheia" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=947445880]
+[node name="LabelColcheia" type="Label" parent="HUD/PainelLousa/VBox" unique_id=947445880]
 layout_mode = 2
 
-[node name="LabelDica" type="Label" parent="HUD/PainelLousa/FundoLousa/VBox" unique_id=5954498]
+[node name="LabelDica" type="Label" parent="HUD/PainelLousa/VBox" unique_id=5954498]
 layout_mode = 2
 
 [node name="PainelPizza" type="Control" parent="HUD" unique_id=506637508]
