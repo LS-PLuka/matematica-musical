@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://df6u56sejjrlt" path="res://assets/fonts/joystix monospace.otf" id="4_ocg1i"]
 [ext_resource type="Texture2D" uid="uid://def3ipu1bex4k" path="res://assets/sprites/ui/semibreve.png" id="5_nsv7p"]
 [ext_resource type="Texture2D" uid="uid://ce25jw67qwrx4" path="res://assets/sprites/ui/minima.png" id="5_pu0ci"]
+[ext_resource type="Texture2D" uid="uid://die8eafwowy2x" path="res://assets/sprites/ui/sprite_pizza.png" id="5_wooid"]
 [ext_resource type="Texture2D" uid="uid://c4vb8sygu2wyy" path="res://assets/sprites/ui/seminima.png" id="7_lunqk"]
 [ext_resource type="Texture2D" uid="uid://b6s7kbuyr6hd7" path="res://assets/sprites/ui/colcheia.png" id="8_n038u"]
 
@@ -92,6 +93,9 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="ImgPizza" type="Sprite2D" parent="HUD/PainelPizza" unique_id=1738568277]
+position = Vector2(570, 290)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_wooid")
 
 [node name="TextoPizza" type="Label" parent="HUD/PainelPizza" unique_id=142725970]
 layout_mode = 0
@@ -99,6 +103,7 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="PainelNotas" type="Control" parent="HUD" unique_id=505892759]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -148,7 +153,7 @@ text = "Mínima
 (1)"
 horizontal_alignment = 1
 
-[node name="LabelSemibreve3" type="Label" parent="HUD/PainelNotas" unique_id=370068625]
+[node name="LabelSeminima" type="Label" parent="HUD/PainelNotas" unique_id=370068625]
 layout_mode = 0
 offset_left = 589.0
 offset_top = 350.0
@@ -160,7 +165,7 @@ text = "Semínima
 (2)"
 horizontal_alignment = 1
 
-[node name="LabelSemibreve4" type="Label" parent="HUD/PainelNotas" unique_id=1157770237]
+[node name="LabelColcheia" type="Label" parent="HUD/PainelNotas" unique_id=1157770237]
 layout_mode = 0
 offset_left = 813.0
 offset_top = 350.0
