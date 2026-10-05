@@ -1,31 +1,30 @@
-extends Node2D
+extends Control
+class_name TutorialMusicalUI
 
-@onready var painel_lousa = $PainelLousa
-@onready var painel_pizza = $PainelPizza
-@onready var fala_label = $DialogoMaestro/Fala
-@onready var nome_label = $DialogoMaestro/NomePersonagem
+## Camada de UI do tutorial musical.
+## Responsabilidade única: exibir painéis e o diálogo, e avisar o script
+## de gameplay quando um bloco de falas termina. Não conhece a ordem das
+## etapas nem decide para onde o jogo vai depois — isso é papel do gameplay.
 
-@onready var label_titulo = $PainelLousa/VBox/LabelTitulo
-@onready var label_semibreve = $PainelLousa/VBox/LabelSemiBreve
-@onready var label_minima = $PainelLousa/VBox/LabelMinima
-@onready var label_seminima = $PainelLousa/VBox/LabelSemiMinima
-@onready var label_colcheia = $PainelLousa/VBox/LabelColcheia
-@onready var label_dica = $PainelLousa/VBox/LabelDica
-@onready var texto_pizza = $PainelPizza/TextoPizza
+signal dialogo_bloco_finalizado
 
-const DIALOGO = [
-	{"nome": "Maestro Bit", "fala": "Saudações, viajante da era do streaming! Pronto para codificar uns acordes?"},
-	{"nome": "Léo", "fala": "Isso aqui é 8-bit ou meu gráfico que bugou de vez? Tudo aqui parece velho... Meus olhos estão em 480p."},
-	{"nome": "Maestro Bit", "fala": "Não se assuste, jovem! Você está no núcleo do sistema. Nos computadores tudo começa com um bit. Na música… tudo começa com um beat."},
-	{"nome": "Maestro Bit", "fala": "Para voltar ao seu mundo de fibra óptica, você precisará consertar a Grande Partitura. E lembre-se: a matemática é a música da mente; a música é a matemática do coração."},
-	{"nome": "Maestro Bit", "fala": "Preste muita atenção nessas instruções e tente memorizar o valor de cada figura musical. Só assim você será capaz de superar os desafios e chegar à Grande Partitura!"},
-	{"nome": "Maestro Bit", "fala": "Nhac! Imagine que o compasso é uma pizza de 4 fatias. Assim, a semibreve é a pizza completa (4 fatias), a mínima é a metade (2 fatias), a semínima equivale a 1 fatia e a colcheia é igual a metade de uma fatia."},
-	{"nome": "Maestro Bit", "fala": "Deu fome?!"},
-]
+const DIALOG_SCREEN := preload("res://scenes/ui/dialog_screen.tscn")
 
-var fala_atual = 0
+@onready var painel_lousa: Control = $PainelLousa
+@onready var painel_pizza: Control = $PainelPizza
 
-func _ready():
+@onready var label_titulo: Label = $PainelLousa/VBox/LabelTitulo
+@onready var label_semibreve: Label = $PainelLousa/VBox/LabelSemiBreve
+@onready var label_minima: Label = $PainelLousa/VBox/LabelMinima
+@onready var label_seminima: Label = $PainelLousa/VBox/LabelSemiMinima
+@onready var label_colcheia: Label = $PainelLousa/VBox/LabelColcheia
+@onready var label_dica: Label = $PainelLousa/VBox/LabelDica
+@onready var texto_pizza: Label = $PainelPizza/TextoPizza
+
+var _hud: CanvasLayer
+var _dialog_atual: Node
+
+func _ready() -> void:
 	painel_lousa.visible = false
 	painel_pizza.visible = false
 	texto_pizza.visible = false
@@ -37,25 +36,28 @@ func _ready():
 	label_colcheia.text = "Colcheia = 0,5 tempo"
 	label_dica.text = "Dica: use os dedos da mão para contar!"
 
-	mostrar_dialogo(0)
+	_hud = CanvasLayer.new()
+	add_child(_hud)
 
-func mostrar_dialogo(indice: int):
-	nome_label.text = DIALOGO[indice]["nome"]
-	fala_label.text = DIALOGO[indice]["fala"]
+func mostrar_lousa(visivel: bool) -> void:
+	painel_lousa.visible = visivel
 
-func avancar():
-	fala_atual += 1
-	match fala_atual:
-		1, 2, 3:
-			mostrar_dialogo(fala_atual)
-		4:
-			mostrar_dialogo(fala_atual)
-			painel_lousa.visible = true
-		5:
-			painel_lousa.visible = false
-			painel_pizza.visible = true
-			mostrar_dialogo(fala_atual)
-		6:
-			mostrar_dialogo(fala_atual)
-		7:
-			get_tree().change_scene_to_file("res://scenes/gameplay/quiz/quiz_screen.tscn")
+func mostrar_pizza(visivel: bool) -> void:
+	painel_pizza.visible = visivel
+
+## Instancia um bloco de diálogo a partir de um dicionário no formato
+## { indice: { "faceset": String, "title": String, "dialog": String } }.
+## Emite dialogo_bloco_finalizado quando o jogador termina de ler o bloco.
+func iniciar_dialogo(dados: Dictionary) -> void:
+	if _dialog_atual:
+		_dialog_atual.queue_free()
+
+	var dialog: DialogScreen = DIALOG_SCREEN.instantiate()
+	dialog.data = dados
+	dialog.dialogo_finalizado.connect(_ao_terminar_dialogo)
+	_hud.add_child(dialog)
+	_dialog_atual = dialog
+
+func _ao_terminar_dialogo() -> void:
+	_dialog_atual = null
+	dialogo_bloco_finalizado.emit()

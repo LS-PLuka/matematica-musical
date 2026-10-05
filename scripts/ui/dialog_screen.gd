@@ -1,6 +1,7 @@
 extends Control
 class_name DialogScreen
 
+signal passou_de_fala(index: int)
 signal dialogo_finalizado
 
 var _step: float = 0.05
@@ -30,11 +31,13 @@ func _process(_delta: float) -> void:
 		_initialize_dialog()
 
 func _initialize_dialog() -> void:
+	passou_de_fala.emit(_id)
+	
 	_name.text = data[_id]["title"]
 	_dialog.text = data[_id]["dialog"]
 	_faceset.texture = load(data[_id]["faceset"])
 	_dialog.visible_characters = 0
+	
 	while _dialog.visible_ratio < 1:
 		await get_tree().create_timer(_step).timeout
 		_dialog.visible_characters += 1
-		

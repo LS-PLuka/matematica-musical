@@ -1,0 +1,46 @@
+[33m8c865a7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/tutorial[m[33m)[m fix: cria pasta de tutorial em scripts e scenes e corrige caminho do diretório de tutotial.gd e tutorial.tscn
+[33m92a62c5[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Merge pull request #17 from LS-PLuka/bugfix/navegation
+[33m18628e5[m fix: corrige navegacao do menu principal e outras cenas
+[33m21bdf84[m Merge pull request #16 from LS-PLuka/ritmo
+[33md973f5e[m feat: melhora efeito visual da pontuacao
+[33mdf774e5[m Merge pull request #15 from LS-PLuka/ritmo
+[33m47ff60e[m feat: feedback visual de qual momento o jogador apertou a tecla, usando perfect, good e ok
+[33m93e805d[m Merge pull request #14 from LS-PLuka/develop
+[33m8c92e6d[m Merge pull request #13 from LS-PLuka/ritmo
+[33mb68c0ad[m feat: adiciona cena e mecanica de ritmo
+[33mada52ab[m Merge pull request #12 from LS-PLuka/feature/tutorial-musical
+[33m7117b38[m Merge pull request #11 from LS-PLuka/feature/navegacao-por-teclado-menu-principal
+[33m8cab108[m fix: corrige caminho da cena do quiz
+[33m208c546[m fix: reverte para sistema de dialogo proprio enquanto autoloads estao quebrados
+[33m3547f9e[m feat: integra DialogScreen na apresentacao do Maestro Bit
+[33m2a9783f[m feat: adiciona dialogo de apresentacao do Maestro Bit
+[33mc6fff93[m feat: adiciona navegacao por teclado no menu principal e fonte nova
+[33ma6e55f5[m Merge pull request #9 from LS-PLuka/feature/sistema-quiz
+[33m794fabd[m Merge branch 'develop' into feature/sistema-quiz
+[33m770e9a8[m Merge pull request #10 from LS-PLuka/feature/cutscenes
+[33mf3e40bd[m feat: implementa sistema de cutscenes com video e dialogo
+[33mfe5c9d5[m feat: adiciona botao de exibir dica e exibidor de dificuldade
+[33m53fe2ac[m Merge pull request #7 from LS-PLuka/feature/tutorial-musical
+[33mc6b714f[m Merge pull request #8 from LS-PLuka/feature/sistema-dialogo-e-prologo
+[33m38500ee[m feat: adiciona botao de continuar para exibir proxima pergunta
+[33m7831d0b[m feat: adiciona quiz_screen com UI e conexao ao quiz_manager
+[33mebd4e67[m feat: adiciona quiz_manager com logica de perguntas e sinais
+[33ma0b7771[m fix: corrige erro de digitacao do campo options
+[33md8998ec[m feat: implementa sistema de dialogo e inicio do prologo
+[33md0db327[m fix: remove texto duplicado no painel da pizza
+[33mb3a2a99[m feat: adiciona dica dos dedos e corrige fluxo completo do tutorial
+[33mb2cd50f[m feat: adiciona layout e posicionamento do tutorial musical
+[33m9b78ba7[m feat: implementa estrutura e logica do tutorial musical
+[33mc9368d4[m feat: adiciona json com 6 questoes do quiz do ato II
+[33mc39793d[m Merge pull request #6 from LS-PLuka/develop
+[33m91bd166[m Merge pull request #5 from LS-PLuka/fix/renomear-cena-menu
+[33mee59694[m fix: renomeia menu.tscn para menu_principal.tscn
+[33m164c208[m Merge pull request #4 from LS-PLuka/feature/menu-principal
+[33mcb081c7[m feat: iniciado criacao do menu com o efeito de vhs implementado
+[33m36c9677[m Merge pull request #3 from LS-PLuka/develop
+[33me27bfc9[m Merge pull request #2 from LS-PLuka/feature/readme
+[33m2f684db[m Initialize README with project details and guidelines
+[33mde6a8f2[m Merge pull request #1 from LS-PLuka/develop
+[33m02e02fb[m chore: estrutura de diretorios do projeto
+[33m8427567[m chore: arquitetura inicial do projeto
+[33m20435ac[m first commit
