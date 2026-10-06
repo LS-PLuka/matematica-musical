@@ -1,14 +1,16 @@
 [gd_scene format=3 uid="uid://clygcl31yllbx"]
 
 [ext_resource type="Script" uid="uid://dwsdrcdilycem" path="res://scenes/gameplay/tutorial/tutorial_musical.gd" id="1_6bu3m"]
-[ext_resource type="Texture2D" uid="uid://xhs8877xn2vc" path="res://assets/images/background-quarto.jpg" id="2_rsx1q"]
 [ext_resource type="Texture2D" uid="uid://doixbkficfm0j" path="res://assets/images/background_lousa.png" id="3_ocg1i"]
 [ext_resource type="FontFile" uid="uid://df6u56sejjrlt" path="res://assets/fonts/joystix monospace.otf" id="4_ocg1i"]
 [ext_resource type="Texture2D" uid="uid://def3ipu1bex4k" path="res://assets/sprites/ui/semibreve.png" id="5_nsv7p"]
-[ext_resource type="Texture2D" uid="uid://ce25jw67qwrx4" path="res://assets/sprites/ui/minima.png" id="5_pu0ci"]
+[ext_resource type="Texture2D" uid="uid://d02t7ew43k328" path="res://assets/sprites/ui/minima.png" id="5_pu0ci"]
 [ext_resource type="Texture2D" uid="uid://die8eafwowy2x" path="res://assets/sprites/ui/sprite_pizza.png" id="5_wooid"]
 [ext_resource type="Texture2D" uid="uid://c4vb8sygu2wyy" path="res://assets/sprites/ui/seminima.png" id="7_lunqk"]
-[ext_resource type="Texture2D" uid="uid://b6s7kbuyr6hd7" path="res://assets/sprites/ui/colcheia.png" id="8_n038u"]
+[ext_resource type="Texture2D" uid="uid://bpnwpamf62c6u" path="res://assets/sprites/ui/colcheia.png" id="8_n038u"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_n038u"]
+load_path = "res://.godot/imported/background-quarto.jpg-af25362f4b7eb3481a16ff7fc61885ce.ctex"
 
 [node name="TutorialMusical" type="Control" unique_id=1121696985]
 layout_mode = 3
@@ -19,14 +21,28 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6bu3m")
 
-[node name="Background" type="TextureRect" parent="." unique_id=1886308748]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1414249255]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_rsx1q")
+color = Color(0.9490196, 0.92156863, 0.88235295, 1)
+
+[node name="Background" type="TextureRect" parent="." unique_id=1724234566]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CompressedTexture2D_n038u")
+expand_mode = 5
+stretch_mode = 3
 
 [node name="Background_lousa" type="TextureRect" parent="." unique_id=181448676]
 layout_mode = 1

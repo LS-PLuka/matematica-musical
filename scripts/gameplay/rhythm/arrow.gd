@@ -2,6 +2,7 @@ extends StaticBody2D
 
 class_name falling_arrow
 
+@export var direction : String
 @export var state : String = "MISS"
 
 # ENTRADA
