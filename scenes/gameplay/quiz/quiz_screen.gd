@@ -53,5 +53,5 @@ func _on_answer_wrong(feedback: String) -> void:
 	pass
 
 func _on_quiz_completed() -> void:
-	get_tree().change_scene_to_file("res://scenes/ui/menu_principal.tscn")
+	get_tree().change_scene_to_file("res://scenes/gameplay/rhythm/rhythm.tscn")
 	pass

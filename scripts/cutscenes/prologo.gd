@@ -11,21 +11,22 @@ var _dialogo_iniciado: bool = false
 
 var _dialog_data: Dictionary = {
 	0: {
-		"faceset": "res://assets/sprites/characters/portrait_temporary_1.png",
+		"faceset": "res://assets/sprites/characters/portrait_main.png",
 		"dialog": "Minha bateria social tá acabando e eu nem achei uma tomada de três pinos nesse quarto... Que tédio.",
 		"title": "Jogador"
 	},
 	1: {
-		"faceset": "res://assets/sprites/characters/portrait_temporary_1.png",
+		"faceset": "res://assets/sprites/characters/portrait_main.png",
 		"dialog": "Alguém me explica por que esse 'Spotify' de plástico redondo risca tanto? Deixa eu ver se isso ainda liga...",
 		"title": "Jogador"
 	},
 }
 
 func _ready() -> void:
-	$Background.visible = false
-	video_player.finished.connect(_ao_terminar_video)
-	video_player.play()
+	# $Background.visible = false
+	# video_player.finished.connect(_ao_terminar_video)
+	# video_player.play()
+	_ao_terminar_video()
 
 func _unhandled_input(_event: InputEvent) -> void:
 	# Escape só funciona enquanto o diálogo NÃO começou

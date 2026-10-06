@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" uid="uid://d08vrwiei85kl" path="res://scripts/cutscenes/prologo.gd" id="1_cqf1j"]
 [ext_resource type="VideoStream" uid="uid://c7ph207iil0n4" path="res://assets/video/abertura.ogv" id="2_cqf1j"]
-[ext_resource type="Texture2D" uid="uid://xhs8877xn2vc" path="res://assets/images/background-quarto.jpg" id="2_vvg02"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cqf1j"]
+load_path = "res://.godot/imported/background-quarto.jpg-af25362f4b7eb3481a16ff7fc61885ce.ctex"
 
 [node name="Prologo" type="Control" unique_id=1372092922]
 layout_mode = 3
@@ -13,16 +15,28 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_cqf1j")
 
-[node name="Background" type="TextureRect" parent="." unique_id=1122060669]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1239017613]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -192.0
-offset_right = 192.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_vvg02")
+color = Color(0.9490196, 0.92156863, 0.88235295, 1)
+
+[node name="Background" type="TextureRect" parent="." unique_id=1122060669]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CompressedTexture2D_cqf1j")
+expand_mode = 5
+stretch_mode = 3
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=896302857]
 layout_mode = 1

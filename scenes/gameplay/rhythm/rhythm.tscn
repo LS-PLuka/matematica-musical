@@ -4,6 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://6upg67kkulxq" path="res://scenes/gameplay/rhythm/arrow_handle.tscn" id="2_0wfyh"]
 [ext_resource type="Script" uid="uid://dbn3kenq1qidu" path="res://scripts/gameplay/rhythm/ui_script.gd" id="3_sugp2"]
 [ext_resource type="FontFile" uid="uid://df6u56sejjrlt" path="res://assets/fonts/joystix monospace.otf" id="4_6bb1s"]
+[ext_resource type="Texture2D" uid="uid://cfuq4m3p0wa5r" path="res://assets/images/paisagem-de-grade-de-jogo-retro_107791-34992.jpg" id="5_7vo1m"]
+[ext_resource type="AudioStream" uid="uid://beuaa6s4u15xa" path="res://assets/audio/music/Trilha 2 - Encerramento.mp3" id="6_alfui"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_7vo1m"]
+blend_mode = 3
 
 [sub_resource type="Animation" id="Animation_6bb1s"]
 length = 0.001
@@ -66,11 +71,18 @@ _data = {
 &"pulse": SubResource("Animation_7vo1m")
 }
 
-[node name="Main" type="Node2D" unique_id=1773684907 node_paths=PackedStringArray("falling_arrows", "arrows", "control")]
+[node name="Main" type="Node2D" unique_id=1773684907 node_paths=PackedStringArray("falling_arrows", "arrows", "control", "music_player")]
 script = ExtResource("1_o5qli")
 falling_arrows = NodePath("falling_arrows")
 arrows = NodePath("arrows")
 control = NodePath("CanvasLayer/Control")
+music_player = NodePath("AudioStreamPlayer")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1003090218]
+material = SubResource("CanvasItemMaterial_7vo1m")
+position = Vector2(575, 325)
+scale = Vector2(0.79563826, 1.42)
+texture = ExtResource("5_7vo1m")
 
 [node name="arrows" type="Node2D" parent="." unique_id=840725150]
 
@@ -163,6 +175,9 @@ metadata/_edit_use_anchors_ = true
 
 [node name="animation" type="AnimationPlayer" parent="CanvasLayer/Control/last_state" unique_id=1958305208]
 libraries/ = SubResource("AnimationLibrary_alfui")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=652980464]
+stream = ExtResource("6_alfui")
 
 [connection signal="child_entered_tree" from="falling_arrows" to="." method="_on_falling_arrows_child_entered_tree"]
 
