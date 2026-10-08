@@ -1,13 +1,73 @@
 [gd_scene format=3 uid="uid://dlifvh2gup4i"]
 
 [ext_resource type="Script" path="res://scripts/ui/dialog_screen.gd" id="1_okma6"]
-[ext_resource type="Texture2D" uid="uid://dnw7itoxtbm26" path="res://assets/sprites/characters/portrait_temporary_1.png" id="1_ttimm"]
+[ext_resource type="Texture2D" uid="uid://cly3jq736j31y" path="res://assets/sprites/characters/portrait_temporary_1.png" id="1_ttimm"]
+[ext_resource type="FontFile" uid="uid://df6u56sejjrlt" path="res://assets/fonts/joystix monospace.otf" id="2_font"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_okma6"]
+font = ExtResource("2_font")
+font_size = 13
+font_color = Color(0.4, 0.85, 1, 1)
 line_spacing = 0.0
-shadow_color = Color(0, 0, 0, 0.6)
+shadow_color = Color(0, 0, 0, 0.8)
 
-[node name="DialogScreen" type="Control" unique_id=2124665060 node_paths=PackedStringArray("_name", "_dialog", "_faceset")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_keycap"]
+content_margin_left = 6.0
+content_margin_top = 2.0
+content_margin_right = 6.0
+content_margin_bottom = 2.0
+bg_color = Color(0.12, 0.16, 0.24, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.35, 0.7, 0.95, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 2
+
+[sub_resource type="Animation" id="Animation_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pulse"]
+resource_name = "pulse"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.6), Color(1, 1, 1, 1), Color(1, 1, 1, 0.6)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_prompt"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"pulse": SubResource("Animation_pulse")
+}
+
+[node name="DialogScreen" type="Control" unique_id=2124665060 node_paths=PackedStringArray("_name", "_dialog", "_faceset", "_space_prompt", "_space_action_label", "_space_keycap", "_animation_player")]
 custom_minimum_size = Vector2(640, 160)
 layout_mode = 3
 anchors_preset = 7
@@ -25,6 +85,10 @@ script = ExtResource("1_okma6")
 _name = NodePath("Background/HContainer/VContainer/Name")
 _dialog = NodePath("Background/HContainer/VContainer/Dialog")
 _faceset = NodePath("Background/HContainer/Border/Faceset")
+_space_prompt = NodePath("Background/SpacePrompt")
+_space_action_label = NodePath("Background/SpacePrompt/HBoxContainer/ActionLabel")
+_space_keycap = NodePath("Background/SpacePrompt/HBoxContainer/Keycap")
+_animation_player = NodePath("Background/SpacePrompt/AnimationPlayer")
 
 [node name="Background" type="ColorRect" parent="." unique_id=1436805301]
 layout_mode = 1
@@ -33,7 +97,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.6)
+color = Color(0, 0, 0, 0.65)
 
 [node name="HContainer" type="HBoxContainer" parent="Background" unique_id=1497750217]
 custom_minimum_size = Vector2(624, 144)
@@ -53,6 +117,7 @@ grow_vertical = 2
 [node name="Border" type="ColorRect" parent="Background/HContainer" unique_id=1654346126]
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
+color = Color(0.2, 0.4, 0.6, 0.4)
 
 [node name="Faceset" type="TextureRect" parent="Background/HContainer/Border" unique_id=445289780]
 texture_filter = 1
@@ -90,5 +155,56 @@ size_flags_vertical = 3
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/normal_font = ExtResource("2_font")
+theme_override_font_sizes/normal_font_size = 13
 text = "Minha bateria social tá acabando e eu nem achei uma tomada de três pinos nesse quarto... Que tédio."
 visible_characters_behavior = 1
+
+[node name="SpacePrompt" type="Control" parent="Background"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -24.0
+offset_right = -10.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/SpacePrompt"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+theme_override_constants/separation = 6
+
+[node name="Keycap" type="PanelContainer" parent="Background/SpacePrompt/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_keycap")
+
+[node name="KeyLabel" type="Label" parent="Background/SpacePrompt/HBoxContainer/Keycap"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.35, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 9
+text = "ESPACO"
+
+[node name="ActionLabel" type="Label" parent="Background/SpacePrompt/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.92, 1, 0.9)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 9
+text = "Acelerar >>"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Background/SpacePrompt"]
+libraries/ = SubResource("AnimationLibrary_prompt")
+autoplay = "pulse"
