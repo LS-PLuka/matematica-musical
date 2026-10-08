@@ -16,6 +16,29 @@ func _ready() -> void:
 	QuizManager.load_quiz("res://data/quizzes/quiz_ato_ii.json")
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not event.is_pressed() or event.is_echo():
+		return
+
+	# Atalho rápido: Enter quando o botão Continuar estiver visível
+	if %ButtonContinue.visible and (event.is_action_pressed("ui_accept") or Input.is_key_pressed(KEY_ENTER) or Input.is_key_pressed(KEY_KP_ENTER)):
+		%ButtonContinue.grab_focus()
+		return
+
+	# Se nenhum botão estiver focado e o jogador pressionar setas ou WASD
+	var viewport = get_viewport()
+	if viewport and viewport.gui_get_focus_owner() == null:
+		if event.is_action_pressed("ui_up") or event.is_action_pressed("up") or \
+		   event.is_action_pressed("ui_down") or event.is_action_pressed("down") or \
+		   event.is_action_pressed("ui_left") or event.is_action_pressed("left") or \
+		   event.is_action_pressed("ui_right") or event.is_action_pressed("right") or \
+		   event.is_action_pressed("ui_accept"):
+			if %ButtonContinue.visible:
+				%ButtonContinue.grab_focus()
+			elif %ButtonA.visible:
+				%ButtonA.grab_focus()
+
+
 func _on_hint_pressed() -> void:
 	if has_node("%HintContainer"):
 		%HintContainer.visible = true
@@ -29,6 +52,14 @@ func _on_question_loaded(data: Dictionary) -> void:
 	%ButtonA.text = "[A] " + data["options"][0]["text"]
 	%ButtonB.text = "[B] " + data["options"][1]["text"]
 	%ButtonC.text = "[C] " + data["options"][2]["text"]
+	
+	# Foca automaticamente a primeira alternativa com suporte ao teclado/setinhas
+	call_deferred("_focus_first_option")
+
+
+func _focus_first_option() -> void:
+	if %ButtonA.visible:
+		%ButtonA.grab_focus()
 
 
 func _on_answer_correct(feedback: String) -> void:
@@ -38,8 +69,8 @@ func _on_answer_correct(feedback: String) -> void:
 		%FeedbackPanel.visible = true
 	%FeedbackLabel.visible = true
 	%ButtonContinue.visible = true
-	%ButtonContinue.grab_focus()
 	_set_answers_visible(false)
+	%ButtonContinue.call_deferred("grab_focus")
 
 
 func _on_answer_wrong(feedback: String) -> void:
@@ -59,7 +90,6 @@ func _on_continue_pressed() -> void:
 		%FeedbackPanel.visible = false
 	%FeedbackLabel.visible = false
 	_set_answers_visible(true)
-	%ButtonA.grab_focus()
 	QuizManager._load_current()
 
 

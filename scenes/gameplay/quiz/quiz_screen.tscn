@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ctq0k5jeb7p1w"]
+[gd_scene load_steps=13 format=3 uid="uid://ctq0k5jeb7p1w"]
 
 [ext_resource type="Theme" path="res://assets/themes/quiz_theme.tres" id="1_theme"]
 [ext_resource type="Script" uid="uid://dlold6ioc7u0v" path="res://scenes/gameplay/quiz/quiz_screen.gd" id="2_script"]
@@ -87,6 +87,24 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_cont_focus"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+bg_color = Color(0.14, 0.45, 0.28, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.9, 0.35, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0.3, 1, 0.6, 0.4)
+shadow_size = 4
+
 [node name="Quiz" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -155,6 +173,8 @@ text = "DIFICULDADE: INICIANTE"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(110, 36)
 layout_mode = 2
+focus_neighbor_top = NodePath("../../Answers/ButtonC")
+focus_neighbor_bottom = NodePath("../../Answers/ButtonA")
 theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 13
 text = "💡 DICA"
@@ -275,6 +295,8 @@ theme_override_constants/separation = 8
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+focus_neighbor_top = NodePath("../../Header/ButtonHint")
+focus_neighbor_bottom = NodePath("../ButtonB")
 theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 14
 text = "A"
@@ -285,6 +307,8 @@ autowrap_mode = 3
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+focus_neighbor_top = NodePath("../ButtonA")
+focus_neighbor_bottom = NodePath("../ButtonC")
 theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 14
 text = "B"
@@ -295,6 +319,8 @@ autowrap_mode = 3
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+focus_neighbor_top = NodePath("../ButtonB")
+focus_neighbor_bottom = NodePath("../../Header/ButtonHint")
 theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 14
 text = "C"
@@ -307,12 +333,15 @@ visible = false
 custom_minimum_size = Vector2(300, 48)
 layout_mode = 2
 size_flags_horizontal = 4
+focus_neighbor_top = NodePath("../Header/ButtonHint")
+focus_neighbor_bottom = NodePath("../Header/ButtonHint")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.1, 0.1, 0.1, 1)
 theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 15
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_cont_focus")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_cont_hover")
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_cont_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_cont_pressed")
