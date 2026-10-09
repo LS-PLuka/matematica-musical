@@ -143,4 +143,4 @@ func _process(_delta):
 	
 	if current_note >= notes.size():
 		await get_tree().create_timer(3).timeout
-		get_tree().change_scene_to_file("res://scenes/ui/menu_principal.tscn")
+		get_tree().change_scene_to_file("res://scenes/cutscenes/epilogo.tscn")

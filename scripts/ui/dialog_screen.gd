@@ -12,7 +12,6 @@ var data: Dictionary = {}
 @export var _name: Label = null
 @export var _dialog: RichTextLabel = null
 @export var _faceset: TextureRect = null
-@export var _space_prompt: Control = null
 @export var _space_action_label: Label = null
 @export var _space_keycap: PanelContainer = null
 @export var _animation_player: AnimationPlayer = null
