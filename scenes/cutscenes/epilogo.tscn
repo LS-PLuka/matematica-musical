@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://dh7s816knflky"]
 
-[ext_resource type="Script" uid="uid://2ft5qpiu350a" path="res://scripts/cutscenes/epilogo.gd" id="1_7l8jh"]
-[ext_resource type="VideoStream" uid="uid://cy6bhkxarlrsh" path="res://assets/video/abertura.ogv" id="1_n23s4"]
+[ext_resource type="Script" uid="uid://d0ld6v41db4uv" path="res://scripts/cutscenes/epilogo.gd" id="1_7l8jh"]
+[ext_resource type="VideoStream" uid="uid://c7ph207iil0n4" path="res://assets/video/abertura.ogv" id="1_n23s4"]
 
-[node name="Epilogo" type="Control" unique_id=611444408]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cqf1j"]
+load_path = "res://.godot/imported/background-quarto.jpg-af25362f4b7eb3481a16ff7fc61885ce.ctex"
+
+[node name="Epilogo" type="Control" unique_id=1372092922]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,7 +15,30 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_7l8jh")
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=2031250885]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1239017613]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.9490196, 0.92156863, 0.88235295, 1)
+
+[node name="Background" type="TextureRect" parent="." unique_id=1122060669]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CompressedTexture2D_cqf1j")
+expand_mode = 5
+stretch_mode = 3
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=896302857]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,3 +47,5 @@ grow_horizontal = 2
 grow_vertical = 2
 stream = ExtResource("1_n23s4")
 expand = true
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1329960658]

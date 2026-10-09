@@ -4,10 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://doixbkficfm0j" path="res://assets/images/background_lousa.png" id="3_ocg1i"]
 [ext_resource type="FontFile" uid="uid://df6u56sejjrlt" path="res://assets/fonts/joystix monospace.otf" id="4_ocg1i"]
 [ext_resource type="Texture2D" uid="uid://def3ipu1bex4k" path="res://assets/sprites/ui/semibreve.png" id="5_nsv7p"]
-[ext_resource type="Texture2D" uid="uid://d02t7ew43k328" path="res://assets/sprites/ui/minima.png" id="5_pu0ci"]
+[ext_resource type="Texture2D" uid="uid://ce25jw67qwrx4" path="res://assets/sprites/ui/minima.png" id="5_pu0ci"]
 [ext_resource type="Texture2D" uid="uid://die8eafwowy2x" path="res://assets/sprites/ui/sprite_pizza.png" id="5_wooid"]
 [ext_resource type="Texture2D" uid="uid://c4vb8sygu2wyy" path="res://assets/sprites/ui/seminima.png" id="7_lunqk"]
-[ext_resource type="Texture2D" uid="uid://bpnwpamf62c6u" path="res://assets/sprites/ui/colcheia.png" id="8_n038u"]
+[ext_resource type="Texture2D" uid="uid://b6s7kbuyr6hd7" path="res://assets/sprites/ui/colcheia.png" id="8_n038u"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_n038u"]
 load_path = "res://.godot/imported/background-quarto.jpg-af25362f4b7eb3481a16ff7fc61885ce.ctex"
@@ -154,7 +154,7 @@ offset_bottom = 407.0
 theme_override_fonts/font = ExtResource("4_ocg1i")
 theme_override_font_sizes/font_size = 22
 text = "Semibreve
-(0.5)"
+(4)"
 horizontal_alignment = 1
 
 [node name="LabelMinima" type="Label" parent="HUD/PainelNotas" unique_id=859558706]
@@ -166,7 +166,7 @@ offset_bottom = 407.0
 theme_override_fonts/font = ExtResource("4_ocg1i")
 theme_override_font_sizes/font_size = 22
 text = "Mínima
-(1)"
+(2)"
 horizontal_alignment = 1
 
 [node name="LabelSeminima" type="Label" parent="HUD/PainelNotas" unique_id=370068625]
@@ -178,7 +178,7 @@ offset_bottom = 407.0
 theme_override_fonts/font = ExtResource("4_ocg1i")
 theme_override_font_sizes/font_size = 22
 text = "Semínima
-(2)"
+(1)"
 horizontal_alignment = 1
 
 [node name="LabelColcheia" type="Label" parent="HUD/PainelNotas" unique_id=1157770237]
@@ -190,5 +190,5 @@ offset_bottom = 407.0
 theme_override_fonts/font = ExtResource("4_ocg1i")
 theme_override_font_sizes/font_size = 22
 text = "Colcheia
-(4)"
+(0.5)"
 horizontal_alignment = 1
