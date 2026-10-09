@@ -44,12 +44,10 @@ func _ready() -> void:
 	_ao_terminar_video()
 
 func _unhandled_input(_event: InputEvent) -> void:
-	# Escape só funciona enquanto o diálogo NÃO começou
 	if Input.is_action_just_pressed("ui_cancel") and not _dialogo_iniciado:
 		_pular_para_dialogo()
 
 func _pular_para_dialogo() -> void:
-	# Para o vídeo e inicia o diálogo direto
 	video_player.stop()
 	_ao_terminar_video()
 

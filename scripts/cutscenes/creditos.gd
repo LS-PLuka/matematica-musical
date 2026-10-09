@@ -6,7 +6,6 @@ const PROXIMA_CENA := "res://scenes/ui/menu_principal.tscn"
 const CAMINHO_FONTE := "res://assets/fonts/joystix monospace.otf" 
 const CAMINHO_SHADER := "res://assets/shaders/VHS.gdshader" 
 const CAMINHO_LOGO := "res://assets/sprites/ui/logo_matemusica.svg" 
-# >>> COLOQUE O CAMINHO EXATO DA LOGO DA FATEC AQUI <<<
 const CAMINHO_LOGO_FATEC := "res://assets/sprites/ui/fatec_sao_sebastiao.png"
 
 const VELOCIDADE_NORMAL := 55.0
@@ -67,7 +66,6 @@ func _montar_creditos() -> void:
 	for secao: Dictionary in CREDITOS:
 		_adicionar_label(secao["titulo"], TAMANHO_SECAO, COR_SECAO)
 		for item: String in secao["nomes"]:
-			# Se o item for "FATEC", renderiza o asset da logo em vez de texto
 			if item == "FATEC":
 				_adicionar_imagem_fatec()
 			else:
@@ -93,20 +91,14 @@ func _adicionar_imagem_fatec() -> void:
 		var textura_fatec = load(CAMINHO_LOGO_FATEC)
 		var texture_rect := TextureRect.new()
 		texture_rect.texture = textura_fatec
-		
-		# Permite que o TextureRect redimensione livremente baseado no custom_minimum_size
 		texture_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		
-		# Força o alinhamento ao centro do VBoxContainer para não ficar desalinhado
 		texture_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		
-		# Agora o tamanho que você definir aqui será rigorosamente obedecido:
-		texture_rect.custom_minimum_size = Vector2(420, 140) # Ajuste se quiser um pouco maior ou menor
+		texture_rect.custom_minimum_size = Vector2(420, 140) 
 		
 		conteudo.add_child(texture_rect)
 	else:
-		# Fallback caso a imagem não seja encontrada, exibe em texto
 		_adicionar_label("FATEC", TAMANHO_NOME, COR_NOME)
 
 func _adicionar_label(texto: String, tamanho: int, cor: Color) -> void:
