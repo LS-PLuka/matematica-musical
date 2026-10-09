@@ -2,7 +2,7 @@ extends Control
 
 @export var start: Button
 
-const CAMINHO_AUDIO_TV := "res://assets/audio/sfx/tv_on_off.mp3"
+const CAMINHO_AUDIO_TV := "res://assets/audio/sfx/tv_on.mp3"
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)

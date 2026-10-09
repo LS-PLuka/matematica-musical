@@ -7,6 +7,7 @@ const CAMINHO_FONTE := "res://assets/fonts/joystix monospace.otf"
 const CAMINHO_SHADER := "res://assets/shaders/VHS.gdshader" 
 const CAMINHO_LOGO := "res://assets/sprites/ui/logo_matemusica.svg" 
 const CAMINHO_LOGO_FATEC := "res://assets/sprites/ui/fatec_sao_sebastiao.png"
+const CAMINHO_AUDIO_TV := "res://assets/audio/sfx/tv_off.mp3" 
 
 const VELOCIDADE_NORMAL := 55.0
 const VELOCIDADE_RAPIDA := 220.0
@@ -141,4 +142,39 @@ func _encerrar() -> void:
 		return
 	_encerrando = true
 	_rolando = false
+
+	var fundo_preto := ColorRect.new()
+	fundo_preto.name = "FundoPretoEncerramento"
+	fundo_preto.set_anchors_preset(Control.PRESET_FULL_RECT)
+	fundo_preto.color = Color(0, 0, 0, 1)
+	fundo_preto.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(fundo_preto)
+
+	if ResourceLoader.exists(CAMINHO_AUDIO_TV):
+		var audio_stream = load(CAMINHO_AUDIO_TV)
+		var sfx_player = AudioStreamPlayer.new()
+		sfx_player.stream = audio_stream
+		add_child(sfx_player)
+		sfx_player.play()
+
+	var tv_flash := ColorRect.new()
+	tv_flash.name = "EfeitoTVDesligando"
+	tv_flash.set_anchors_preset(Control.PRESET_FULL_RECT)
+	tv_flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tv_flash.color = Color(1.0, 1.0, 1.0, 1.0)
+	add_child(tv_flash)
+	tv_flash.pivot_offset = tv_flash.size / 2.0
+	tv_flash.scale = Vector2(1.0, 1.0) 
+	tv_flash.modulate.a = 0.0
+	var tween = create_tween().set_parallel(true)
+	tween.tween_property(tv_flash, "modulate:a", 1.0, 0.2)
+	tween.tween_property(tv_flash, "scale", Vector2(1.0, 0.001), 0.5).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	
+	await tween.finished
+	var master_bus = AudioServer.get_bus_index("Master")
+	AudioServer.set_bus_mute(master_bus, true)
+
+	await get_tree().create_timer(1.5).timeout
+	
+	AudioServer.set_bus_mute(master_bus, false)
 	SceneManager.ir_para(PROXIMA_CENA)
