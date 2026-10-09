@@ -29,6 +29,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=1936939351]
+layout_mode = 2
+
 [node name="LabelCreditos" type="Label" parent="VBoxContainer" unique_id=896245879]
 layout_mode = 2
 horizontal_alignment = 1
