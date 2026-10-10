@@ -19,8 +19,8 @@ static func get_note_info(arrow_type: Arrow) -> Dictionary:
 				"direction": "LEFT",
 				"name": "Semibreve",
 				"value": 4.0,
-				"value_str": "4",
-				"color": Color("#FF2E93"), # Rosa/Magenta Neon
+				"value_str": "4t",
+				"color": Color("#FF6B9D"), # Rosa giz
 				"texture": "res://assets/sprites/ui/semibreve.png"
 			}
 		Arrow.DOWN:
@@ -29,8 +29,8 @@ static func get_note_info(arrow_type: Arrow) -> Dictionary:
 				"direction": "DOWN",
 				"name": "Mínima",
 				"value": 2.0,
-				"value_str": "2",
-				"color": Color("#00F0FF"), # Ciano Neon
+				"value_str": "2t",
+				"color": Color("#5CE1E6"), # Ciano giz
 				"texture": "res://assets/sprites/ui/minima.png"
 			}
 		Arrow.UP:
@@ -39,8 +39,8 @@ static func get_note_info(arrow_type: Arrow) -> Dictionary:
 				"direction": "UP",
 				"name": "Semínima",
 				"value": 1.0,
-				"value_str": "1",
-				"color": Color("#FFDD00"), # Amarelo Neon
+				"value_str": "1t",
+				"color": Color("#FFD166"), # Amarelo giz
 				"texture": "res://assets/sprites/ui/seminima.png"
 			}
 		Arrow.RIGHT:
@@ -49,8 +49,8 @@ static func get_note_info(arrow_type: Arrow) -> Dictionary:
 				"direction": "RIGHT",
 				"name": "Colcheia",
 				"value": 0.5,
-				"value_str": "1/2",
-				"color": Color("#00FF66"), # Verde Neon
+				"value_str": "½t",
+				"color": Color("#06D6A0"), # Verde giz
 				"texture": "res://assets/sprites/ui/colcheia.png"
 			}
 	return {}
