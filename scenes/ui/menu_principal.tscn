@@ -98,6 +98,13 @@ theme = SubResource("Theme_upctu")
 text = "Iniciar"
 flat = true
 
+[node name="Teclas" type="Button" parent="MargemBotoes/Botoes" unique_id=1116159671]
+texture_filter = 1
+layout_mode = 2
+theme = SubResource("Theme_upctu")
+text = "teclas"
+flat = true
+
 [node name="Exit" type="Button" parent="MargemBotoes/Botoes" unique_id=1116159670]
 texture_filter = 1
 layout_mode = 2
@@ -123,6 +130,9 @@ parameters/looping = true
 [connection signal="focus_entered" from="MargemBotoes/Botoes/Start" to="." method="_on_focus_entered"]
 [connection signal="focus_exited" from="MargemBotoes/Botoes/Start" to="." method="_on_focus_exited"]
 [connection signal="pressed" from="MargemBotoes/Botoes/Start" to="." method="_on_start_pressed"]
+[connection signal="focus_entered" from="MargemBotoes/Botoes/Teclas" to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="MargemBotoes/Botoes/Teclas" to="." method="_on_focus_exited"]
+[connection signal="pressed" from="MargemBotoes/Botoes/Teclas" to="." method="_on_keybinding_pressed"]
 [connection signal="focus_entered" from="MargemBotoes/Botoes/Exit" to="." method="_on_focus_entered"]
 [connection signal="focus_exited" from="MargemBotoes/Botoes/Exit" to="." method="_on_focus_exited"]
 [connection signal="pressed" from="MargemBotoes/Botoes/Exit" to="." method="_on_exit_pressed"]
