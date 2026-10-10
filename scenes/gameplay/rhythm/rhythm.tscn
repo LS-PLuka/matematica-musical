@@ -1,75 +1,53 @@
 [gd_scene format=3 uid="uid://uqcrn4ls7plu"]
 
-[ext_resource type="Script" uid="uid://b0p57jvhdwupw" path="res://scripts/gameplay/rhythm/rhythm.gd" id="1_o5qli"]
+[ext_resource type="Script" path="res://scripts/gameplay/rhythm/rhythm.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://6upg67kkulxq" path="res://scenes/gameplay/rhythm/arrow_handle.tscn" id="2_0wfyh"]
-[ext_resource type="Script" uid="uid://dbn3kenq1qidu" path="res://scripts/gameplay/rhythm/ui_script.gd" id="3_sugp2"]
+[ext_resource type="Script" path="res://scripts/gameplay/rhythm/ui_script.gd" id="3_sugp2"]
 [ext_resource type="FontFile" uid="uid://df6u56sejjrlt" path="res://assets/fonts/joystix monospace.otf" id="4_6bb1s"]
-[ext_resource type="Texture2D" uid="uid://cfuq4m3p0wa5r" path="res://assets/images/paisagem-de-grade-de-jogo-retro_107791-34992.jpg" id="5_7vo1m"]
+[ext_resource type="Texture2D" uid="uid://doixbkficfm0j" path="res://assets/images/background_lousa.png" id="5_lousa"]
 [ext_resource type="AudioStream" uid="uid://beuaa6s4u15xa" path="res://assets/audio/music/Trilha 2 - Encerramento.mp3" id="6_alfui"]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_7vo1m"]
-blend_mode = 3
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_board"]
+bg_color = Color(0.06, 0.11, 0.08, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.55, 0.45, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
-[sub_resource type="Animation" id="Animation_6bb1s"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1.25, 1.25)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.10471976]
-}
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud_panel"]
+content_margin_left = 14.0
+content_margin_top = 14.0
+content_margin_right = 14.0
+content_margin_bottom = 14.0
+bg_color = Color(0.05, 0.09, 0.07, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.45, 0.4, 0.75)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
-[sub_resource type="Animation" id="Animation_7vo1m"]
-resource_name = "pulse"
-length = 0.25
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(1.25, 1.25), Vector2(1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:rotation")
-tracks/1/interp = 4
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.13333334, 0.25),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.10471976, -0.10471976, 0.0]
-}
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_beat_bg"]
+bg_color = Color(0.12, 0.18, 0.15, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_alfui"]
-_data = {
-&"RESET": SubResource("Animation_6bb1s"),
-&"pulse": SubResource("Animation_7vo1m")
-}
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_beat_fill"]
+bg_color = Color(0.04, 0.84, 0.63, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [node name="Main" type="Node2D" unique_id=1773684907 node_paths=PackedStringArray("falling_arrows", "arrows", "control", "music_player")]
 script = ExtResource("1_o5qli")
@@ -78,109 +56,435 @@ arrows = NodePath("arrows")
 control = NodePath("CanvasLayer/Control")
 music_player = NodePath("AudioStreamPlayer")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1003090218]
-material = SubResource("CanvasItemMaterial_7vo1m")
-position = Vector2(575, 325)
-scale = Vector2(0.79563826, 1.42)
-texture = ExtResource("5_7vo1m")
+[node name="Background" type="TextureRect" parent="." unique_id=1003090218]
+modulate = Color(0.65, 0.7, 0.75, 1)
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("5_lousa")
+expand_mode = 1
+
+[node name="DarkOverlay" type="ColorRect" parent="." unique_id=1003090219]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 0.45)
+
+[node name="ChalkboardTrack" type="Panel" parent="." unique_id=200000001]
+offset_left = 300.0
+offset_top = 25.0
+offset_right = 852.0
+offset_bottom = 615.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_board")
+
+[node name="PautaHeader" type="Label" parent="ChalkboardTrack" unique_id=200000002]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 26.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.4, 0.9)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 11
+text = "♪ PAUTA DE RITMO • COMPASSO 4/4 ♪"
+horizontal_alignment = 1
+
+[node name="LaneDivider1" type="ColorRect" parent="ChalkboardTrack" unique_id=200000003]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 35.0
+offset_right = 140.0
+offset_bottom = 575.0
+color = Color(1, 1, 1, 0.12)
+
+[node name="LaneDivider2" type="ColorRect" parent="ChalkboardTrack" unique_id=200000004]
+layout_mode = 0
+offset_left = 276.0
+offset_top = 35.0
+offset_right = 278.0
+offset_bottom = 575.0
+color = Color(1, 1, 1, 0.12)
+
+[node name="LaneDivider3" type="ColorRect" parent="ChalkboardTrack" unique_id=200000005]
+layout_mode = 0
+offset_left = 414.0
+offset_top = 35.0
+offset_right = 416.0
+offset_bottom = 575.0
+color = Color(1, 1, 1, 0.12)
+
+[node name="HeaderLane0" type="Label" parent="ChalkboardTrack" unique_id=200000006]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 32.0
+offset_right = 138.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(1, 0.42, 0.62, 0.95)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 9
+text = "SEMIBREVE
+4 TEMPOS"
+horizontal_alignment = 1
+
+[node name="HeaderLane1" type="Label" parent="ChalkboardTrack" unique_id=200000007]
+layout_mode = 0
+offset_left = 145.0
+offset_top = 32.0
+offset_right = 273.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.36, 0.88, 0.9, 0.95)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 9
+text = "MÍNIMA
+2 TEMPOS"
+horizontal_alignment = 1
+
+[node name="HeaderLane2" type="Label" parent="ChalkboardTrack" unique_id=200000008]
+layout_mode = 0
+offset_left = 282.0
+offset_top = 32.0
+offset_right = 410.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(1, 0.82, 0.4, 0.95)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 9
+text = "SEMÍNIMA
+1 TEMPO"
+horizontal_alignment = 1
+
+[node name="HeaderLane3" type="Label" parent="ChalkboardTrack" unique_id=200000009]
+layout_mode = 0
+offset_left = 418.0
+offset_top = 32.0
+offset_right = 546.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.04, 0.84, 0.63, 0.95)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 9
+text = "COLCHEIA
+½ TEMPO"
+horizontal_alignment = 1
+
+[node name="TargetHitLine" type="ColorRect" parent="ChalkboardTrack" unique_id=200000010]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 493.0
+offset_right = 542.0
+offset_bottom = 496.0
+color = Color(1, 0.86, 0.35, 0.65)
+
+[node name="TargetLineLabel" type="Label" parent="ChalkboardTrack" unique_id=200000011]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 478.0
+offset_right = 542.0
+offset_bottom = 494.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.45)
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 8
+text = "────── LINHA DE RITMO (ALVO) ──────"
+horizontal_alignment = 1
 
 [node name="arrows" type="Node2D" parent="." unique_id=840725150]
 
-[node name="up" parent="arrows" unique_id=1333944790 instance=ExtResource("2_0wfyh")]
-position = Vector2(496, 448)
+[node name="left" parent="arrows" unique_id=994103875 instance=ExtResource("2_0wfyh")]
+position = Vector2(376, 520)
 
 [node name="down" parent="arrows" unique_id=1496376037 instance=ExtResource("2_0wfyh")]
-position = Vector2(640, 448)
+position = Vector2(509, 520)
 
-[node name="sprite" parent="arrows/down" index="1" unique_id=1460017687]
-rotation = 1.5707964
-
-[node name="left" parent="arrows" unique_id=994103875 instance=ExtResource("2_0wfyh")]
-position = Vector2(352, 448)
-
-[node name="sprite" parent="arrows/left" index="1" unique_id=1460017687]
-rotation = -3.1415927
+[node name="up" parent="arrows" unique_id=1333944790 instance=ExtResource("2_0wfyh")]
+position = Vector2(643, 520)
 
 [node name="right" parent="arrows" unique_id=403823864 instance=ExtResource("2_0wfyh")]
-position = Vector2(784, 448)
-
-[node name="sprite" parent="arrows/right" index="1" unique_id=1460017687]
-rotation = 0.0
+position = Vector2(776, 520)
 
 [node name="falling_arrows" type="Node2D" parent="." unique_id=1975279513]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1930153717]
 
-[node name="Control" type="Control" parent="CanvasLayer" unique_id=76749654 node_paths=PackedStringArray("score_value_label", "last_state", "animation")]
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=76749654 node_paths=PackedStringArray("score_value_label", "combo_label", "last_state", "compass_label", "equation_label", "completed_label", "bpm_label", "metronome_dots_container", "measure_bar_container")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("3_sugp2")
-score_value_label = NodePath("score_value")
+score_value_label = NodePath("RightPanel/VBoxContainer/ScoreValue")
+combo_label = NodePath("RightPanel/VBoxContainer/ComboLabel")
 last_state = NodePath("last_state")
-animation = NodePath("last_state/animation")
+compass_label = NodePath("LeftPanel/VBoxContainer/CompassLabel")
+equation_label = NodePath("LeftPanel/VBoxContainer/EquationLabel")
+completed_label = NodePath("LeftPanel/VBoxContainer/CompletedLabel")
+bpm_label = NodePath("LeftPanel/VBoxContainer/BpmLabel")
+metronome_dots_container = NodePath("LeftPanel/VBoxContainer/MetronomeDots")
+measure_bar_container = NodePath("LeftPanel/VBoxContainer/MeasureBlocks")
 
-[node name="score" type="Label" parent="CanvasLayer/Control" unique_id=2094860926]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.055555556
-anchor_top = 0.09876543
-anchor_right = 0.25694445
-anchor_bottom = 0.20679012
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 28
-text = "Pontuação:"
-metadata/_edit_use_anchors_ = true
+[node name="LeftPanel" type="PanelContainer" parent="CanvasLayer/Control" unique_id=200000040]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 25.0
+offset_right = 282.0
+offset_bottom = 615.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud_panel")
 
-[node name="score_value" type="Label" parent="CanvasLayer/Control" unique_id=1032078085]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.25694445
-anchor_top = 0.09876543
-anchor_right = 0.36979166
-anchor_bottom = 0.20679012
-grow_horizontal = 2
-grow_vertical = 2
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/LeftPanel" unique_id=200000041]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000042]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 14
+text = "COMPASSO 4/4"
+horizontal_alignment = 1
+
+[node name="HSeparator1" type="HSeparator" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000043]
+layout_mode = 2
+
+[node name="BpmLabel" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000044]
+layout_mode = 2
+pivot_offset = Vector2(115, 10)
+theme_override_colors/font_color = Color(0.36, 0.88, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 13
+text = "⚡ METRÔNOMO: 120"
+horizontal_alignment = 1
+
+[node name="MetronomeDots" type="HBoxContainer" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000045]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Dot1" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer/MetronomeDots" unique_id=200000046]
+layout_mode = 2
+pivot_offset = Vector2(8, 10)
+theme_override_colors/font_color = Color(1, 0.86, 0.35, 1)
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 18
+text = "●"
+
+[node name="Dot2" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer/MetronomeDots" unique_id=200000047]
+layout_mode = 2
+pivot_offset = Vector2(8, 10)
+theme_override_colors/font_color = Color(1, 1, 1, 0.4)
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 18
+text = "○"
+
+[node name="Dot3" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer/MetronomeDots" unique_id=200000048]
+layout_mode = 2
+pivot_offset = Vector2(8, 10)
+theme_override_colors/font_color = Color(1, 1, 1, 0.4)
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 18
+text = "○"
+
+[node name="Dot4" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer/MetronomeDots" unique_id=200000049]
+layout_mode = 2
+pivot_offset = Vector2(8, 10)
+theme_override_colors/font_color = Color(1, 1, 1, 0.4)
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 18
+text = "○"
+
+[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000050]
+layout_mode = 2
+
+[node name="MeasureGuideLabel" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000051]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 0.85)
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 10
+text = "BARRA DO COMPASSO:"
+
+[node name="MeasureBlocks" type="HBoxContainer" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000052]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Beat1" type="ProgressBar" parent="CanvasLayer/Control/LeftPanel/VBoxContainer/MeasureBlocks" unique_id=200000053]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_beat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_beat_fill")
+max_value = 1.0
+show_percentage = false
+
+[node name="Beat2" type="ProgressBar" parent="CanvasLayer/Control/LeftPanel/VBoxContainer/MeasureBlocks" unique_id=200000054]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_beat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_beat_fill")
+max_value = 1.0
+show_percentage = false
+
+[node name="Beat3" type="ProgressBar" parent="CanvasLayer/Control/LeftPanel/VBoxContainer/MeasureBlocks" unique_id=200000055]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_beat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_beat_fill")
+max_value = 1.0
+show_percentage = false
+
+[node name="Beat4" type="ProgressBar" parent="CanvasLayer/Control/LeftPanel/VBoxContainer/MeasureBlocks" unique_id=200000056]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_beat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_beat_fill")
+max_value = 1.0
+show_percentage = false
+
+[node name="CompassLabel" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000057]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.04, 0.84, 0.63, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 11
+text = "Compasso: 0.0 / 4.0t"
+
+[node name="EquationLabel" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000058]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.85)
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 10
+text = "Equação: (Toque as notas...)"
+autowrap_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000059]
+layout_mode = 2
+
+[node name="CompletedLabel" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000060]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 11
+text = "Compassos Fechados: 0 ★"
+autowrap_mode = 2
+
+[node name="RightPanel" type="PanelContainer" parent="CanvasLayer/Control" unique_id=200000070]
+layout_mode = 0
+offset_left = 870.0
+offset_top = 25.0
+offset_right = 1134.0
+offset_bottom = 615.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud_panel")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/RightPanel" unique_id=200000071]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ScoreTitle" type="Label" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000072]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 14
+text = "PONTUAÇÃO"
+horizontal_alignment = 1
+
+[node name="ScoreValue" type="Label" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000073]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.04, 0.84, 0.63, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 24
 text = "0"
-metadata/_edit_use_anchors_ = true
+horizontal_alignment = 1
+
+[node name="ComboLabel" type="Label" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000074]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.88, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 12
+text = "COMBO: x1 (0)"
+horizontal_alignment = 1
+
+[node name="HSeparator1" type="HSeparator" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000075]
+layout_mode = 2
+
+[node name="GuideTitle" type="Label" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000076]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.35, 1)
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 11
+text = "GUIA DAS NOTAS:"
+
+[node name="GuideBody" type="Label" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000077]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 0.85)
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 9
+text = "A / ← : Semibreve
+   = 4.0 tempos
+
+S / ↓ : Mínima
+   = 2.0 tempos
+
+W / ↑ : Semínima
+   = 1.0 tempo
+
+D / → : Colcheia
+   = 0.5 tempo (½)"
+
+[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000078]
+layout_mode = 2
+
+[node name="GuideHint" type="Label" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000079]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.5, 0.9)
+theme_override_fonts/font = ExtResource("4_6bb1s")
+theme_override_font_sizes/font_size = 9
+text = "OBJETIVO:
+Acerte na Linha de Ritmo para somar 4 tempos e completar compassos!"
+autowrap_mode = 2
 
 [node name="last_state" type="Label" parent="CanvasLayer/Control" unique_id=1673309836]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.054
-anchor_top = 0.19100001
-anchor_right = 0.28100002
-anchor_bottom = 0.257
-offset_left = 25.792
-offset_top = 4.231987
-offset_right = -25.712036
-offset_bottom = -4.5359497
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -266.0
+offset_top = 435.0
+offset_right = 266.0
+offset_bottom = 475.0
 grow_horizontal = 2
-grow_vertical = 2
-rotation = 0.10471976
-scale = Vector2(1.25, 1.25)
-pivot_offset = Vector2(105, 17)
-theme_override_colors/font_color = Color(1, 1, 0, 1)
+pivot_offset = Vector2(266, 20)
+theme_override_colors/font_color = Color(1, 0.86, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="animation" type="AnimationPlayer" parent="CanvasLayer/Control/last_state" unique_id=1958305208]
-libraries/ = SubResource("AnimationLibrary_alfui")
+vertical_alignment = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=652980464]
 stream = ExtResource("6_alfui")
-
-[connection signal="child_entered_tree" from="falling_arrows" to="." method="_on_falling_arrows_child_entered_tree"]
-
-[editable path="arrows/down"]
-[editable path="arrows/left"]
-[editable path="arrows/right"]
