@@ -46,10 +46,26 @@ func _on_exit_pressed() -> void:
 	get_tree().quit()
 
 func _on_keybinding_pressed() -> void:
-	# Instancia o menu de teclas como overlay
+	# Adiciona em CanvasLayer dedicado para garantir que fique acima de
+	# todos os outros nós e intercepte corretamente os eventos de mouse.
+	var kb_canvas := CanvasLayer.new()
+	kb_canvas.layer = 10
+	add_child(kb_canvas)
+
 	var kb_menu = KEYBINDING_SCENE.instantiate()
-	add_child(kb_menu)
-	kb_menu.closed.connect(func(): pass)  # já se remove via queue_free
+	kb_canvas.add_child(kb_menu)
+
+	# O efeito VHS está numa CanvasLayer que renderiza por cima de tudo —
+	# esconde enquanto as configs estão abertas.
+	var vhs = find_child("VHSeffect") as CanvasLayer
+	if vhs:
+		vhs.visible = false
+
+	kb_menu.closed.connect(func():
+		if is_instance_valid(vhs):
+			vhs.visible = true
+		kb_canvas.queue_free()  # remove canvas + keybinding_menu
+	)
 
 func _on_focus_entered() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)

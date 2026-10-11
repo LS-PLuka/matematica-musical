@@ -19,6 +19,7 @@ const TARGET_Y: float = 520.0
 var lane_x: Array[float] = [376.0, 509.0, 643.0, 776.0]
 
 const FALLING_ARROW = preload("uid://doigxdyl6f2ss")
+const KEYBINDING_SCENE = preload("res://scenes/ui/keybinding_menu.tscn")
 
 var beat_interval: float = 60.0 / BPM
 var last_beat_idx: int = -1
@@ -61,8 +62,10 @@ var _math_popup: Control
 var _math_popup_label: Label
 var _math_timer_bar: ProgressBar
 var _lives_labels: Array = []
+var _keybinding_instance: Node = null
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	notes = music_system.musics[0]
 	setup_receptors()
 	music_player.play()
@@ -71,15 +74,25 @@ func _ready() -> void:
 
 # ─── RECEPTORES DE LANE ────────────────────────────────────────────────────
 
+func _get_action_key_name(action: String, default_key: String) -> String:
+	var events = InputMap.action_get_events(action)
+	for ev in events:
+		if ev is InputEventKey:
+			var keycode = (ev as InputEventKey).physical_keycode
+			var kstr = OS.get_keycode_string(keycode)
+			if not kstr.is_empty():
+				return kstr
+	return default_key
+
 func setup_receptors() -> void:
 	if not arrows:
 		return
 
 	var receptor_configs = [
-		{"name": "left",  "lane": 0, "key": "A", "arrow": "←", "fig": "Semibreve", "val": "4t", "color": Color("#FF6B9D"), "tex": "res://assets/sprites/ui/semibreve.png"},
-		{"name": "down",  "lane": 1, "key": "S", "arrow": "↓", "fig": "Mínima",    "val": "2t", "color": Color("#5CE1E6"), "tex": "res://assets/sprites/ui/minima.png"},
-		{"name": "up",    "lane": 2, "key": "W", "arrow": "↑", "fig": "Semínima",  "val": "1t", "color": Color("#FFD166"), "tex": "res://assets/sprites/ui/seminima.png"},
-		{"name": "right", "lane": 3, "key": "D", "arrow": "→", "fig": "Colcheia",  "val": "½t", "color": Color("#06D6A0"), "tex": "res://assets/sprites/ui/colcheia.png"}
+		{"name": "left",  "lane": 0, "key": _get_action_key_name("left", "A"),   "arrow": "←", "fig": "Semibreve", "val": "4t", "color": Color("#FF6B9D"), "tex": "res://assets/sprites/ui/semibreve.png"},
+		{"name": "down",  "lane": 1, "key": _get_action_key_name("down", "S"),   "arrow": "↓", "fig": "Mínima",    "val": "2t", "color": Color("#5CE1E6"), "tex": "res://assets/sprites/ui/minima.png"},
+		{"name": "up",    "lane": 2, "key": _get_action_key_name("up", "W"),     "arrow": "↑", "fig": "Semínima",  "val": "1t", "color": Color("#FFD166"), "tex": "res://assets/sprites/ui/seminima.png"},
+		{"name": "right", "lane": 3, "key": _get_action_key_name("right", "D"),  "arrow": "→", "fig": "Colcheia",  "val": "½t", "color": Color("#06D6A0"), "tex": "res://assets/sprites/ui/colcheia.png"}
 	]
 
 	for cfg in receptor_configs:
@@ -102,6 +115,7 @@ func setup_receptors() -> void:
 func _create_hud_overlays() -> void:
 	_overlay_canvas = CanvasLayer.new()
 	_overlay_canvas.layer = 20
+	_overlay_canvas.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(_overlay_canvas)
 
 	_create_game_over_overlay()
@@ -121,7 +135,6 @@ func _create_lives_hud() -> void:
 	var hbox = HBoxContainer.new()
 	hbox.set_anchors_preset(Control.PRESET_FULL_RECT)
 	hbox.alignment = BoxContainer.ALIGNMENT_END
-	hbox.theme_override_constants = {}
 	hbox.add_theme_constant_override("separation", 6)
 	hud.add_child(hbox)
 
@@ -226,13 +239,13 @@ func _create_pause_overlay() -> void:
 	var vbox = VBoxContainer.new()
 	vbox.set_anchors_preset(Control.PRESET_CENTER)
 	vbox.offset_left   = -220.0
-	vbox.offset_top    = -150.0
+	vbox.offset_top    = -180.0
 	vbox.offset_right  =  220.0
-	vbox.offset_bottom =  150.0
+	vbox.offset_bottom =  180.0
 	vbox.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	vbox.grow_vertical   = Control.GROW_DIRECTION_BOTH
 	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	vbox.add_theme_constant_override("separation", 16)
+	vbox.add_theme_constant_override("separation", 14)
 	_pause_panel.add_child(vbox)
 
 	var title = Label.new()
@@ -250,6 +263,10 @@ func _create_pause_overlay() -> void:
 	var btn_resume = _make_overlay_button("▶  Continuar  [ESC]", Color("#06D6A0"), font)
 	vbox.add_child(btn_resume)
 	btn_resume.pressed.connect(_on_resume_pressed)
+
+	var btn_keys = _make_overlay_button("⌨  Configurar Teclas", Color("#A78BFA"), font)
+	vbox.add_child(btn_keys)
+	btn_keys.pressed.connect(_on_config_keys_pressed)
 
 	var btn_retry = _make_overlay_button("↻  Reiniciar", Color("#5CE1E6"), font)
 	vbox.add_child(btn_retry)
@@ -356,6 +373,8 @@ func _input(event: InputEvent) -> void:
 
 	# Pausa
 	if event.is_action_pressed("ui_cancel"):
+		if _keybinding_instance and is_instance_valid(_keybinding_instance):
+			return
 		_toggle_pause()
 		return
 
@@ -538,6 +557,28 @@ func _toggle_pause() -> void:
 func _on_resume_pressed() -> void:
 	if paused:
 		_toggle_pause()
+
+func _on_config_keys_pressed() -> void:
+	if _keybinding_instance and is_instance_valid(_keybinding_instance):
+		return
+	if _pause_panel:
+		_pause_panel.visible = false
+	var kb_canvas := CanvasLayer.new()
+	kb_canvas.layer = 30
+	kb_canvas.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(kb_canvas)
+
+	var kb_menu = KEYBINDING_SCENE.instantiate()
+	_keybinding_instance = kb_menu
+	kb_canvas.add_child(kb_menu)
+
+	kb_menu.closed.connect(func():
+		_keybinding_instance = null
+		kb_canvas.queue_free()
+		if paused and not game_over_active and _pause_panel:
+			_pause_panel.visible = true
+		setup_receptors()
+	)
 
 # ─── DESAFIO MATEMÁTICO ───────────────────────────────────────────────────
 

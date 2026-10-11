@@ -20,7 +20,23 @@ var data: Dictionary = {}
 func _ready() -> void:
 	if _animation_player and _animation_player.has_animation("pulse"):
 		_animation_player.play("pulse")
+	_start_background_music()
 	_initialize_dialog()
+
+func _start_background_music() -> void:
+	const MUSIC_PATH := "res://assets/audio/music/Trilha 1 - Abertura.mp3"
+	if not ResourceLoader.exists(MUSIC_PATH):
+		return
+	var player := AudioStreamPlayer.new()
+	player.stream = load(MUSIC_PATH)
+	player.volume_db = -8.0
+	player.autoplay = false
+	player.set_meta("is_bg_music", true)
+	add_child(player)
+	player.play()
+	# Loop manual via sinal finished
+	player.finished.connect(player.play)
+
 
 
 func _process(_delta: float) -> void:
