@@ -2,11 +2,58 @@ extends Node
 class_name Music
 
 enum Arrow {
-	LEFT,
-	DOWN,
-	UP,
-	RIGHT
+	LEFT,   # Semibreve (4.0 tempos)
+	DOWN,   # Mínima (2.0 tempos)
+	UP,     # Semínima (1.0 tempo)
+	RIGHT   # Colcheia (0.5 tempo)
 }
+
+const BPM := 120.0
+const MEASURE_TARGET := 4.0 # Compasso 4/4
+
+static func get_note_info(arrow_type: Arrow) -> Dictionary:
+	match arrow_type:
+		Arrow.LEFT:
+			return {
+				"lane": 0,
+				"direction": "LEFT",
+				"name": "Semibreve",
+				"value": 4.0,
+				"value_str": "4t",
+				"color": Color("#FF6B9D"), # Rosa giz
+				"texture": "res://assets/sprites/ui/semibreve.png"
+			}
+		Arrow.DOWN:
+			return {
+				"lane": 1,
+				"direction": "DOWN",
+				"name": "Mínima",
+				"value": 2.0,
+				"value_str": "2t",
+				"color": Color("#5CE1E6"), # Ciano giz
+				"texture": "res://assets/sprites/ui/minima.png"
+			}
+		Arrow.UP:
+			return {
+				"lane": 2,
+				"direction": "UP",
+				"name": "Semínima",
+				"value": 1.0,
+				"value_str": "1t",
+				"color": Color("#FFD166"), # Amarelo giz
+				"texture": "res://assets/sprites/ui/seminima.png"
+			}
+		Arrow.RIGHT:
+			return {
+				"lane": 3,
+				"direction": "RIGHT",
+				"name": "Colcheia",
+				"value": 0.5,
+				"value_str": "½t",
+				"color": Color("#06D6A0"), # Verde giz
+				"texture": "res://assets/sprites/ui/colcheia.png"
+			}
+	return {}
 
 var musica_encerramento = [
 	{"time": 6.8, "arrow": Arrow.LEFT},
@@ -105,3 +152,4 @@ var musica_encerramento = [
 ]
 
 var musics = [musica_encerramento]
+

@@ -18,7 +18,6 @@ O jogo combina narrativa, um tutorial visual, perguntas de múltipla escolha e u
 - [Como jogar](#como-jogar)
 - [O que você aprende](#o-que-você-aprende)
 - [Identidade do jogo](#identidade-do-jogo)
-- [Estado atual](#estado-atual)
 - [Tecnologia](#tecnologia)
 - [Créditos](#créditos)
 
@@ -122,22 +121,6 @@ O texto mistura referências musicais e digitais porque esse é o ponto de encon
 
 ---
 
-## Estado atual
-
-O fluxo principal está implementado do menu aos créditos e forma uma experiência curta, linear e completa.
-
-Limitações conhecidas desta versão:
-
-- não há executável publicado; o projeto precisa ser aberto pelo Godot;
-- a partida não possui seleção de dificuldade ou de música;
-- não existe tela de pausa nem configuração de volume;
-- a pontuação do desafio rítmico não é salva entre partidas;
-- o jogo foi pensado para teclado e ainda não possui suporte dedicado a controle.
-
-Essas limitações são explícitas porque esta versão funciona como uma experiência educacional fechada, não como uma plataforma de fases ou músicas expansível pelo jogador.
-
----
-
 ## Tecnologia
 
 | Tecnologia | Papel |
@@ -156,8 +139,8 @@ O jogo roda com o renderer de compatibilidade do Godot e usa apenas recursos loc
 | Área | Responsáveis |
 |---|---|
 | Direção de jogo | Gabriel Cassiano e Lucas Cury |
-| Programação | Daniel Custódio, Gianluca Zocarato, João Vitor Simões e Pedro Luka Silva |
-| Arte e animação | Matheus Henrique Nascimento |
+| Programação | Daniel Custódio, Gianluca Zocarato, João Vitor e Pedro Luka |
+| Arte e animação | Matheus Henrique |
 | Música e sound design | Gabriel Cassiano |
 | Roteiro e pedagogia musical | Gabriel Cassiano e Lucas Cury |
 
