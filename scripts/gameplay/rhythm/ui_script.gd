@@ -111,9 +111,9 @@ func add_note_to_compass(note_value: float, figure_name: String) -> void:
 
 func _format_val(v: float) -> String:
 	if is_equal_approx(v, 0.5):
-		return "½"
+		return "1/2"
 	if is_equal_approx(v, 0.25):
-		return "¼"
+		return "1/4"
 	return str(int(v))
 
 # ─── ATUALIZAÇÃO DO HUD ────────────────────────────────────────────────────

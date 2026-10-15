@@ -171,7 +171,7 @@ theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("4_6bb1s")
 theme_override_font_sizes/font_size = 9
 text = "COLCHEIA
-½ TEMPO"
+1/2 TEMPO"
 horizontal_alignment = 1
 
 [node name="TargetHitLine" type="ColorRect" parent="ChalkboardTrack" unique_id=200000010]

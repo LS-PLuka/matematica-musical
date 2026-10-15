@@ -15,7 +15,7 @@ const ACTIONS := [
 	{"action": "left",  "label": "Semibreve  (4t)", "color": Color("#FF6B9D"), "icon": "←"},
 	{"action": "down",  "label": "Mínima     (2t)", "color": Color("#5CE1E6"), "icon": "↓"},
 	{"action": "up",    "label": "Semínima   (1t)", "color": Color("#FFD166"), "icon": "↑"},
-	{"action": "right", "label": "Colcheia   (½t)", "color": Color("#06D6A0"), "icon": "→"},
+	{"action": "right", "label": "Colcheia   (1/2t)", "color": Color("#06D6A0"), "icon": "→"},
 ]
 
 var _font: FontFile
@@ -445,8 +445,16 @@ func _apply_keybindings() -> void:
 				InputMap.action_erase_event(action, ev)
 
 		var new_event = InputEventKey.new()
-		new_event.physical_keycode = OS.find_keycode_from_string(key_name)
+		var custom_keycode = OS.find_keycode_from_string(key_name)
+		new_event.physical_keycode = custom_keycode
 		InputMap.action_add_event(action, new_event)
+
+		var arrow_map = {"left": KEY_LEFT, "down": KEY_DOWN, "up": KEY_UP, "right": KEY_RIGHT}
+		var def_arrow: Key = arrow_map.get(action, KEY_NONE)
+		if def_arrow != KEY_NONE and def_arrow != custom_keycode:
+			var arrow_ev = InputEventKey.new()
+			arrow_ev.physical_keycode = def_arrow
+			InputMap.action_add_event(action, arrow_ev)
 
 func _save_to_file() -> void:
 	var cfg = ConfigFile.new()

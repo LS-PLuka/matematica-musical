@@ -5,6 +5,10 @@ extends Control
 const CAMINHO_AUDIO_TV := "res://assets/audio/sfx/tv_on.mp3"
 const KEYBINDING_SCENE = preload("res://scenes/ui/keybinding_menu.tscn")
 
+var _btn_difficulty: Button = null
+var _lbl_difficulty_info: Label = null
+var _badge_unlocked: Label = null
+
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
 
@@ -12,6 +16,95 @@ func _ready() -> void:
 		start.grab_focus()
 
 	_animar_tv_ligando()
+	_setup_difficulty_feature()
+
+func _setup_difficulty_feature() -> void:
+	if not GameManager.is_game_completed:
+		return
+
+	var font = load("res://assets/fonts/joystix monospace.otf") as FontFile
+	var botoes = find_child("Botoes") as VBoxContainer
+	if not botoes:
+		return
+
+	var margem = find_child("MargemBotoes") as MarginContainer
+	if margem:
+		margem.offset_top = -50.0
+		margem.offset_bottom = 90.0
+
+	# Badge comemorativo de desbloqueio
+	if not _badge_unlocked:
+		_badge_unlocked = Label.new()
+		_badge_unlocked.text = "★ MODO DESBLOQUEADO ★"
+		_badge_unlocked.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		if font:
+			_badge_unlocked.add_theme_font_override("font", font)
+		_badge_unlocked.add_theme_font_size_override("font_size", 10)
+		_badge_unlocked.add_theme_color_override("font_color", Color("#FFD166"))
+		_badge_unlocked.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+		_badge_unlocked.add_theme_constant_override("outline_size", 3)
+		botoes.add_child(_badge_unlocked)
+		botoes.move_child(_badge_unlocked, 1)
+
+		var tw = create_tween().set_loops()
+		tw.tween_property(_badge_unlocked, "modulate:a", 0.4, 0.8)
+		tw.tween_property(_badge_unlocked, "modulate:a", 1.0, 0.8)
+
+	# Botão de alternar dificuldade
+	if not _btn_difficulty:
+		_btn_difficulty = Button.new()
+		_btn_difficulty.name = "Dificuldade"
+		_btn_difficulty.flat = true
+		if font:
+			_btn_difficulty.add_theme_font_override("font", font)
+		_btn_difficulty.add_theme_font_size_override("font_size", 20)
+		botoes.add_child(_btn_difficulty)
+		botoes.move_child(_btn_difficulty, 2)
+
+		_btn_difficulty.focus_entered.connect(_on_focus_entered)
+		_btn_difficulty.pressed.connect(_on_difficulty_pressed)
+
+	# Label descritivo do modificador atual
+	if not _lbl_difficulty_info:
+		_lbl_difficulty_info = Label.new()
+		_lbl_difficulty_info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		_lbl_difficulty_info.autowrap_mode = TextServer.AUTOWRAP_WORD
+		if font:
+			_lbl_difficulty_info.add_theme_font_override("font", font)
+		_lbl_difficulty_info.add_theme_font_size_override("font_size", 9)
+		_lbl_difficulty_info.add_theme_color_override("font_color", Color(1, 1, 1, 0.75))
+		_lbl_difficulty_info.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+		_lbl_difficulty_info.add_theme_constant_override("outline_size", 2)
+		botoes.add_child(_lbl_difficulty_info)
+		botoes.move_child(_lbl_difficulty_info, 3)
+
+	_update_difficulty_display()
+
+func _update_difficulty_display() -> void:
+	if _btn_difficulty:
+		_btn_difficulty.text = "Dificuldade: [ %s ]" % GameManager.get_difficulty_name()
+		_btn_difficulty.add_theme_color_override("font_color", GameManager.get_difficulty_color())
+		_btn_difficulty.add_theme_color_override("font_hover_color", Color(1, 1, 1, 1))
+		_btn_difficulty.add_theme_color_override("font_focus_color", GameManager.get_difficulty_color())
+	if _lbl_difficulty_info:
+		_lbl_difficulty_info.text = GameManager.get_difficulty_description()
+
+func _on_difficulty_pressed() -> void:
+	GameManager.cycle_difficulty()
+	_update_difficulty_display()
+
+	if _btn_difficulty:
+		var tw = create_tween()
+		tw.tween_property(_btn_difficulty, "scale", Vector2(1.08, 1.08), 0.08)
+		tw.tween_property(_btn_difficulty, "scale", Vector2(1.0, 1.0), 0.08)
+
+func _unhandled_input(event: InputEvent) -> void:
+	# Atalho F2 para desenvolvedor / testes rápidos de desbloqueio
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.physical_keycode == KEY_F2 or event.keycode == KEY_F2:
+			GameManager.save_game_completed()
+			_setup_difficulty_feature()
+			_update_difficulty_display()
 
 func _animar_tv_ligando() -> void:
 	if ResourceLoader.exists(CAMINHO_AUDIO_TV):

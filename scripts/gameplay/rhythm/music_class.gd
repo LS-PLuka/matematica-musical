@@ -49,7 +49,7 @@ static func get_note_info(arrow_type: Arrow) -> Dictionary:
 				"direction": "RIGHT",
 				"name": "Colcheia",
 				"value": 0.5,
-				"value_str": "½t",
+				"value_str": "1/2t",
 				"color": Color("#06D6A0"), # Verde giz
 				"texture": "res://assets/sprites/ui/colcheia.png"
 			}
