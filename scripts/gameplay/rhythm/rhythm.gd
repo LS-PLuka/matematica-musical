@@ -43,6 +43,8 @@ var math_challenge_active: bool = false
 var math_challenge_correct_lane: int = -1
 var math_challenge_timer: float = 0.0
 var math_challenge_duration: float = 8.0
+var math_error_penalty: float = 2.0
+var errors_in_current_challenge: int = 0
 var measures_since_last_challenge: int = 0
 const MEASURES_PER_CHALLENGE: int = 6   # Espaçado como no mod do Hypno (FNF)
 const MAX_CHALLENGES_PER_GAME: int = 3  # Máximo de 3 aparições por partida
@@ -131,6 +133,7 @@ func _apply_difficulty_settings() -> void:
 			hit_tolerance_ok = 88.0
 			misses_for_life_loss = 5
 			math_challenge_duration = 10.0
+			math_error_penalty = 1.5
 			current_math_challenges = MATH_CHALLENGES_FACIL
 		GameManager.Difficulty.NORMAL:
 			fall_time = 3.0
@@ -139,6 +142,7 @@ func _apply_difficulty_settings() -> void:
 			hit_tolerance_ok = 72.0
 			misses_for_life_loss = 4
 			math_challenge_duration = 8.0
+			math_error_penalty = 2.0
 			current_math_challenges = MATH_CHALLENGES_NORMAL
 		GameManager.Difficulty.DIFICIL:
 			fall_time = 2.2
@@ -147,6 +151,7 @@ func _apply_difficulty_settings() -> void:
 			hit_tolerance_ok = 52.0
 			misses_for_life_loss = 3
 			math_challenge_duration = 6.0
+			math_error_penalty = 2.5
 			current_math_challenges = MATH_CHALLENGES_DIFICIL
 		GameManager.Difficulty.HARDCORE:
 			fall_time = 1.6
@@ -155,6 +160,7 @@ func _apply_difficulty_settings() -> void:
 			hit_tolerance_ok = 38.0
 			misses_for_life_loss = 2
 			math_challenge_duration = 5.0
+			math_error_penalty = 3.0
 			current_math_challenges = MATH_CHALLENGES_HARDCORE
 
 # ─── RECEPTORES DE LANE ────────────────────────────────────────────────────
@@ -842,6 +848,7 @@ func _spawn_math_challenge() -> void:
 	challenges_spawned += 1
 	math_challenge_active = true
 	_challenge_resolving = false
+	errors_in_current_challenge = 0
 	math_challenge_correct_lane = challenge["lane"]
 	math_challenge_timer = math_challenge_duration
 
@@ -883,10 +890,29 @@ func _resolve_math_challenge(pressed_lane: int) -> void:
 		await get_tree().create_timer(0.35).timeout
 		_end_math_challenge()
 	else:
-		# Errado — não perde vida, avisa para tentar novamente
+		# Errado — reduz o tempo restante proporcionalmente à dificuldade!
+		# A cada erro consecutivo no mesmo desafio, a penalidade aumenta mais ainda.
+		errors_in_current_challenge += 1
+		var penalty = math_error_penalty + (float(errors_in_current_challenge - 1) * 0.5)
+		math_challenge_timer = max(0.0, math_challenge_timer - penalty)
+
 		if control:
-			control.update_last_state("✗ Incorreto! Tente outra nota.")
+			control.update_last_state("✗ Errou! -%0.1fs de tempo!" % penalty)
+
+		_flash_screen(Color("#FF6B6B"), 0.25)
 		_highlight_challenge_button(pressed_lane, false)
+
+		if _math_popup_title:
+			_math_popup_title.text = "⚡ ERRO! -%0.1fs! [%04.1fs] ⚡" % [penalty, max(0.0, math_challenge_timer)]
+			_math_popup_title.add_theme_color_override("font_color", Color("#FF6B6B"))
+
+		if _math_timer_bar:
+			_math_timer_bar.value = clampf(math_challenge_timer / math_challenge_duration, 0.0, 1.0)
+
+		if math_challenge_timer <= 0.0:
+			if control:
+				control.update_last_state("⏱ Tempo esgotado!")
+			_end_math_challenge()
 
 func _end_math_challenge() -> void:
 	math_challenge_active = false

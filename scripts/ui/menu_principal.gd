@@ -133,7 +133,16 @@ func _animar_tv_ligando() -> void:
 	tv_flash.queue_free()
 
 func _on_start_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/cutscenes/abertura.tscn")
+	if GameManager.is_game_completed:
+		if is_instance_valid(SceneManager):
+			SceneManager.ir_para("res://scenes/gameplay/rhythm/rhythm.tscn")
+		else:
+			get_tree().change_scene_to_file("res://scenes/gameplay/rhythm/rhythm.tscn")
+	else:
+		if is_instance_valid(SceneManager):
+			SceneManager.ir_para("res://scenes/cutscenes/abertura.tscn")
+		else:
+			get_tree().change_scene_to_file("res://scenes/cutscenes/abertura.tscn")
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()
