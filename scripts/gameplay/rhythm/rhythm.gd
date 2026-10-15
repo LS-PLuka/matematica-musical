@@ -37,9 +37,10 @@ var paused: bool = false
 var math_challenge_active: bool = false
 var math_challenge_correct_lane: int = -1
 var math_challenge_timer: float = 0.0
-const MATH_CHALLENGE_DURATION: float = 8.0
+const MATH_CHALLENGE_DURATION: float = 10.0
 var measures_since_last_challenge: int = 0
 const MEASURES_PER_CHALLENGE: int = 2
+var last_challenge_measure: int = -1
 
 # Desafios matemáticos disponíveis (equação, lane correta)
 const MATH_CHALLENGES := [
@@ -59,10 +60,12 @@ var _overlay_canvas: CanvasLayer
 var _game_over_panel: Control
 var _pause_panel: Control
 var _math_popup: Control
+var _math_popup_title: Label
 var _math_popup_label: Label
 var _math_timer_bar: ProgressBar
 var _lives_labels: Array = []
 var _keybinding_instance: Node = null
+
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -306,12 +309,13 @@ func _create_math_popup() -> void:
 	panel.add_child(vbox)
 
 	var title_lbl = Label.new()
-	title_lbl.text = "⚡ DESAFIO MATEMÁTICO! ⚡"
+	title_lbl.text = "⚡ DESAFIO MATEMÁTICO! [10.0s] ⚡"
 	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title_lbl.add_theme_font_override("font", font)
 	title_lbl.add_theme_font_size_override("font_size", 11)
 	title_lbl.add_theme_color_override("font_color", Color("#FFD166"))
 	vbox.add_child(title_lbl)
+	_math_popup_title = title_lbl
 
 	_math_popup_label = Label.new()
 	_math_popup_label.text = ""
@@ -591,10 +595,10 @@ func _init_challenge_pool() -> void:
 func _check_measures_for_challenge() -> void:
 	if math_challenge_active:
 		return
-	# O controle notifica sobre compassos fechados via update_last_state; verificamos diretamente
 	if control and control.has_method("get_completed_compasses"):
 		var completed = control.get_completed_compasses()
-		if completed > 0 and completed % MEASURES_PER_CHALLENGE == 0 and not math_challenge_active:
+		if completed > 0 and completed % MEASURES_PER_CHALLENGE == 0 and completed != last_challenge_measure and not math_challenge_active:
+			last_challenge_measure = completed
 			_spawn_math_challenge()
 
 func _spawn_math_challenge() -> void:
@@ -608,9 +612,16 @@ func _spawn_math_challenge() -> void:
 	math_challenge_correct_lane = challenge["lane"]
 	math_challenge_timer = MATH_CHALLENGE_DURATION
 
+	# CONGELA A MÚSICA E O FLUXO DE NOTAS
+	if music_player:
+		music_player.stream_paused = true
+
+	if _math_popup_title:
+		_math_popup_title.text = "⚡ DESAFIO MATEMÁTICO! [%04.1fs] ⚡" % MATH_CHALLENGE_DURATION
 	if _math_popup_label:
 		_math_popup_label.text = challenge["eq"]
 	if _math_popup:
+		_math_popup.modulate.a = 1.0
 		_math_popup.visible = true
 	if _math_timer_bar:
 		_math_timer_bar.value = 1.0
@@ -622,18 +633,23 @@ func _resolve_math_challenge(pressed_lane: int) -> void:
 	if pressed_lane == math_challenge_correct_lane:
 		# Correto!
 		if control:
-			control.update_score(150)
-			control.update_last_state("✓ RESPOSTA CORRETA! +150 🎓")
-		_end_math_challenge()
+			control.update_score(250)
+			control.update_last_state("✓ RESPOSTA CORRETA! +250 🎓")
 		_flash_screen(Color("#06D6A0"), 0.25)
+		_end_math_challenge()
 	else:
 		# Errado — não perde vida, mas avisa
 		if control:
-			control.update_last_state("✗ Pense novamente...")
+			control.update_last_state("✗ Tente novamente!")
 
 func _end_math_challenge() -> void:
 	math_challenge_active = false
 	math_challenge_correct_lane = -1
+
+	# DESCONGELA A MÚSICA E O FLUXO DE NOTAS
+	if music_player:
+		music_player.stream_paused = false
+
 	if _math_popup:
 		var tw = create_tween()
 		tw.tween_property(_math_popup, "modulate:a", 0.0, 0.3)
@@ -659,7 +675,23 @@ func spawn_falling_note(note_data: Dictionary) -> void:
 func _process(delta: float) -> void:
 	if paused or game_over_active:
 		return
-	if not music_player or not music_player.playing:
+	if not music_player:
+		return
+
+	# Timer do desafio matemático E CONGELAMENTO DAS SETINHAS:
+	if math_challenge_active:
+		math_challenge_timer -= delta
+		if _math_timer_bar:
+			_math_timer_bar.value = clampf(math_challenge_timer / MATH_CHALLENGE_DURATION, 0.0, 1.0)
+		if _math_popup_title:
+			_math_popup_title.text = "⚡ DESAFIO MATEMÁTICO! [%04.1fs] ⚡" % max(0.0, math_challenge_timer)
+		if math_challenge_timer <= 0.0:
+			if control:
+				control.update_last_state("⏱ Tempo esgotado!")
+			_end_math_challenge()
+		return  # Congela a descida das notas e o áudio durante os 10s do desafio
+
+	if not music_player.playing:
 		return
 
 	var current_time = music_player.get_playback_position()
@@ -700,16 +732,6 @@ func _process(delta: float) -> void:
 		if is_instance_valid(missed):
 			missed.queue_free()
 		_register_miss()
-
-	# Timer do desafio matemático
-	if math_challenge_active:
-		math_challenge_timer -= delta
-		if _math_timer_bar:
-			_math_timer_bar.value = math_challenge_timer / MATH_CHALLENGE_DURATION
-		if math_challenge_timer <= 0.0:
-			if control:
-				control.update_last_state("⏱ Tempo esgotado!")
-			_end_math_challenge()
 
 	# Vitória: fim da música
 	if current_note_idx >= notes.size() and active_notes.is_empty():
