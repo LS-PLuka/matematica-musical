@@ -811,6 +811,7 @@ func _trigger_game_over() -> void:
 			comp_lbl.text = "Compassos: %d ★ | Dificuldade: %s" % [control.completed_compasses, GameManager.get_difficulty_name()]
 
 func _on_retry_pressed() -> void:
+	get_tree().paused = false
 	get_tree().reload_current_scene()
 
 func _on_menu_pressed() -> void:
@@ -1059,6 +1060,7 @@ func _process(delta: float) -> void:
 		await get_tree().create_timer(1.5).timeout
 		if lives > 0:
 			GameManager.save_game_completed()
+			GameManager.save_high_score(control.score)
 			get_tree().change_scene_to_file("res://scenes/cutscenes/epilogo.tscn")
 		else:
 			_trigger_game_over()

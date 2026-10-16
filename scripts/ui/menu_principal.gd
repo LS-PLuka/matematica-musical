@@ -8,8 +8,8 @@ const KEYBINDING_SCENE = preload("res://scenes/ui/keybinding_menu.tscn")
 var _btn_difficulty: Button = null
 var _lbl_difficulty_info: Label = null
 var _badge_unlocked: Label = null
+var _lbl_high_score: Label = null
 
-# --- Variáveis do Reset Secreto ---
 var _tempo_segurando_reset: float = 0.0
 var _reset_ativado: bool = false
 const TEMPO_PARA_RESET := 5.0
@@ -18,6 +18,7 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
 
 	_setup_difficulty_feature()
+	_setup_high_score_display() 
 	_setup_menu_focus_chain()
 
 	if start:
@@ -266,3 +267,38 @@ func _on_focus_entered() -> void:
 
 func _on_focus_exited() -> void:
 	pass
+
+func _setup_high_score_display() -> void:
+	# Se a pontuação for 0 (sem ter jogado ou após o reset), não exibe nada
+	if GameManager.high_score <= 0:
+		if _lbl_high_score and is_instance_valid(_lbl_high_score):
+			_lbl_high_score.queue_free()
+			_lbl_high_score = null
+		return
+		
+	if not _lbl_high_score:
+		var font = load("res://assets/fonts/joystix monospace.otf") as FontFile
+		_lbl_high_score = Label.new()
+		
+		# Ancorado no canto inferior direito, mas afastado para fugir da curvatura/distorção do CRT
+		_lbl_high_score.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+		_lbl_high_score.offset_left = -350.0
+		_lbl_high_score.offset_top = -220.0
+		_lbl_high_score.offset_right = -80.0   # Margem maior para não colar na borda curva
+		_lbl_high_score.offset_bottom = -50.0 # Margem inferior aumentada
+		_lbl_high_score.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		_lbl_high_score.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+		
+		if font:
+			_lbl_high_score.add_theme_font_override("font", font)
+		
+		# Ajuste de visibilidade para o Shader VHS/CRT:
+		_lbl_high_score.add_theme_font_size_override("font_size", 22)       # Fonte maior
+		_lbl_high_score.add_theme_color_override("font_color", Color("008cfeff")) # Amarelo/Dourado Arcade
+		_lbl_high_score.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+		_lbl_high_score.add_theme_constant_override("outline_size", 6)       # Contorno preto bem espesso
+		
+		add_child(_lbl_high_score)
+		
+	# Formatação estilo fliperama clássico com zeros à esquerda (ex: HI-SCORE: 002500)
+	_lbl_high_score.text = "HI-SCORE: %06d" % GameManager.high_score
