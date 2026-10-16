@@ -177,4 +177,5 @@ func _encerrar() -> void:
 	await get_tree().create_timer(1.5).timeout
 	
 	AudioServer.set_bus_mute(master_bus, false)
+	GameManager.save_game_completed()
 	SceneManager.ir_para(PROXIMA_CENA)

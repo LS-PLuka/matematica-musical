@@ -1,7 +1,7 @@
 extends Control
 
 const DIALOG_SCREEN = preload("res://scenes/ui/dialog_screen.tscn")
-const PROXIMA_CENA := "res://scenes/gameplay/quiz/quiz.tscn"
+const PROXIMA_CENA := "res://scenes/gameplay/quiz/quiz_screen.tscn"
 
 @onready var hud: CanvasLayer = $HUD
 

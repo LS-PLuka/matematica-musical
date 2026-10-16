@@ -18,6 +18,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 
 SceneManager="*uid://ddrjfw1uoau"
 QuizManager="*uid://ck2t63xv4d6pb"
+GameManager="*uid://biocdns722ym6"
 
 [input]
 
