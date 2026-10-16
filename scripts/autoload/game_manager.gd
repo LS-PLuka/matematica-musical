@@ -224,3 +224,9 @@ func _ensure_key_on_action(action: String, keycode: Key) -> void:
 	new_ev.keycode = keycode
 	InputMap.action_add_event(action, new_ev)
 
+func reset_save_data() -> void:
+	is_game_completed = false
+	selected_difficulty = Difficulty.NORMAL 
+	
+	if FileAccess.file_exists(SAVE_CONFIG_PATH):
+		DirAccess.remove_absolute(SAVE_CONFIG_PATH)

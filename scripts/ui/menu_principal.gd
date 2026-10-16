@@ -9,6 +9,11 @@ var _btn_difficulty: Button = null
 var _lbl_difficulty_info: Label = null
 var _badge_unlocked: Label = null
 
+# --- Variáveis do Reset Secreto ---
+var _tempo_segurando_reset: float = 0.0
+var _reset_ativado: bool = false
+const TEMPO_PARA_RESET := 5.0
+
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
 
@@ -19,6 +24,22 @@ func _ready() -> void:
 		start.call_deferred("grab_focus")
 
 	_animar_tv_ligando()
+
+func _process(delta: float) -> void:
+	if _reset_ativado:
+		return
+		
+	# Na Godot 4, usamos apenas KEY_CTRL para ambos os lados
+	var segurando_ctrl = Input.is_physical_key_pressed(KEY_CTRL)
+	var segurando_backspace = Input.is_physical_key_pressed(KEY_BACKSPACE)
+	
+	if segurando_ctrl and segurando_backspace:
+		_tempo_segurando_reset += delta
+		if _tempo_segurando_reset >= TEMPO_PARA_RESET:
+			_reset_ativado = true
+			_executar_reset_secreto()
+	else:
+		_tempo_segurando_reset = 0.0
 
 func _setup_menu_focus_chain() -> void:
 	var botoes = find_child("Botoes") as VBoxContainer
@@ -119,12 +140,17 @@ func _on_difficulty_pressed() -> void:
 		tw.tween_property(_btn_difficulty, "scale", Vector2(1.0, 1.0), 0.08)
 
 func _unhandled_input(event: InputEvent) -> void:
-	# Atalho F2 para desenvolvedor / testes rápidos de desbloqueio
 	if event is InputEventKey and event.pressed and not event.echo:
-		if event.physical_keycode == KEY_F2 or event.keycode == KEY_F2:
+		var tecla_pressionada = event.physical_keycode
+		if tecla_pressionada == KEY_NONE:
+			tecla_pressionada = event.keycode
+
+		# Atalho F2 para desenvolvedor / testes rápidos de desbloqueio
+		if tecla_pressionada == KEY_F2:
 			GameManager.save_game_completed()
 			_setup_difficulty_feature()
-			_update_difficulty_display()
+			if has_method("_update_difficulty_display"):
+				_update_difficulty_display()
 
 	if not event.is_pressed() or event.is_echo():
 		return
@@ -139,6 +165,32 @@ func _unhandled_input(event: InputEvent) -> void:
 		   event.is_action_pressed("ui_accept"):
 			_restore_menu_focus()
 			viewport.set_input_as_handled()
+
+func _executar_reset_secreto() -> void:
+	_tempo_segurando_reset = 0.0
+	
+	if GameManager.has_method("reset_save_data"):
+		GameManager.reset_save_data()
+		
+	# Reseta as teclas mapeadas para o padrão
+	if GameManager.has_method("reset_keybindings_to_default"):
+		GameManager.reset_keybindings_to_default()
+	
+	var flash_canvas := CanvasLayer.new()
+	flash_canvas.layer = 100
+	add_child(flash_canvas)
+	
+	var flash := ColorRect.new()
+	flash.set_anchors_preset(Control.PRESET_FULL_RECT)
+	flash.color = Color(0.8, 0.1, 0.1, 0.8) 
+	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	flash_canvas.add_child(flash)
+	
+	var tw = create_tween()
+	tw.tween_property(flash, "modulate:a", 0.0, 0.5)
+	
+	await tw.finished
+	get_tree().reload_current_scene()
 
 func _animar_tv_ligando() -> void:
 	if ResourceLoader.exists(CAMINHO_AUDIO_TV):
@@ -182,8 +234,6 @@ func _on_exit_pressed() -> void:
 	get_tree().quit()
 
 func _on_keybinding_pressed() -> void:
-	# Adiciona em CanvasLayer dedicado para garantir que fique acima de
-	# todos os outros nós e intercepte corretamente os eventos de mouse.
 	var kb_canvas := CanvasLayer.new()
 	kb_canvas.layer = 10
 	add_child(kb_canvas)
@@ -191,16 +241,16 @@ func _on_keybinding_pressed() -> void:
 	var kb_menu = KEYBINDING_SCENE.instantiate()
 	kb_canvas.add_child(kb_menu)
 
-	# O efeito VHS está numa CanvasLayer que renderiza por cima de tudo —
-	# esconde enquanto as configs estão abertas.
 	var vhs = find_child("VHSeffect") as CanvasLayer
 	if vhs:
 		vhs.visible = false
 
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+
 	kb_menu.closed.connect(func():
 		if is_instance_valid(vhs):
 			vhs.visible = true
-		kb_canvas.queue_free()  # remove canvas + keybinding_menu
+		kb_canvas.queue_free() 
 		call_deferred("_restore_menu_focus")
 	)
 
