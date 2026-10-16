@@ -104,6 +104,9 @@ var _challenge_idx_pool: Array = []
 var _overlay_canvas: CanvasLayer
 var _game_over_panel: Control
 var _pause_panel: Control
+var _btn_pause_resume: Button = null
+var _btn_pause_keys: Button = null
+var _btn_game_over_retry: Button = null
 var _math_popup: Control
 var _math_popup_title: Label
 var _math_popup_label: Label
@@ -324,11 +327,21 @@ func _create_game_over_overlay() -> void:
 	var btn_retry = _make_overlay_button("↻  Tentar Novamente", Color("#5CE1E6"), font)
 	vbox.add_child(btn_retry)
 	btn_retry.pressed.connect(_on_retry_pressed)
+	_btn_game_over_retry = btn_retry
 
 	# Botão Menu Principal
 	var btn_menu = _make_overlay_button("⌂  Menu Principal", Color("#FFD166"), font)
 	vbox.add_child(btn_menu)
 	btn_menu.pressed.connect(_on_menu_pressed)
+
+	btn_retry.focus_neighbor_top = btn_retry.get_path_to(btn_menu)
+	btn_retry.focus_neighbor_bottom = btn_retry.get_path_to(btn_menu)
+	btn_retry.focus_previous = btn_retry.get_path_to(btn_menu)
+	btn_retry.focus_next = btn_retry.get_path_to(btn_menu)
+	btn_menu.focus_neighbor_top = btn_menu.get_path_to(btn_retry)
+	btn_menu.focus_neighbor_bottom = btn_menu.get_path_to(btn_retry)
+	btn_menu.focus_previous = btn_menu.get_path_to(btn_retry)
+	btn_menu.focus_next = btn_menu.get_path_to(btn_retry)
 
 func _create_pause_overlay() -> void:
 	_pause_panel = Control.new()
@@ -369,10 +382,12 @@ func _create_pause_overlay() -> void:
 	var btn_resume = _make_overlay_button("▶  Continuar  [ESC]", Color("#06D6A0"), font)
 	vbox.add_child(btn_resume)
 	btn_resume.pressed.connect(_on_resume_pressed)
+	_btn_pause_resume = btn_resume
 
 	var btn_keys = _make_overlay_button("⌨  Configurar Teclas", Color("#A78BFA"), font)
 	vbox.add_child(btn_keys)
 	btn_keys.pressed.connect(_on_config_keys_pressed)
+	_btn_pause_keys = btn_keys
 
 	var btn_retry = _make_overlay_button("↻  Reiniciar", Color("#5CE1E6"), font)
 	vbox.add_child(btn_retry)
@@ -381,6 +396,16 @@ func _create_pause_overlay() -> void:
 	var btn_menu = _make_overlay_button("⌂  Menu Principal", Color("#FF6B6B"), font)
 	vbox.add_child(btn_menu)
 	btn_menu.pressed.connect(_on_menu_pressed)
+
+	var pause_btns: Array[Button] = [btn_resume, btn_keys, btn_retry, btn_menu]
+	for i in range(pause_btns.size()):
+		var b = pause_btns[i]
+		var prev = pause_btns[(i - 1 + pause_btns.size()) % pause_btns.size()]
+		var nxt = pause_btns[(i + 1) % pause_btns.size()]
+		b.focus_neighbor_top = b.get_path_to(prev)
+		b.focus_neighbor_bottom = b.get_path_to(nxt)
+		b.focus_previous = b.get_path_to(prev)
+		b.focus_next = b.get_path_to(nxt)
 
 func _create_math_popup() -> void:
 	_math_popup = Control.new()
@@ -592,8 +617,23 @@ func _input(event: InputEvent) -> void:
 		return
 
 	if game_over_active:
+		var vp = get_viewport()
+		if vp and vp.gui_get_focus_owner() == null:
+			if event.is_action_pressed("ui_up") or event.is_action_pressed("up") or \
+			   event.is_action_pressed("ui_down") or event.is_action_pressed("down") or \
+			   event.is_action_pressed("ui_accept"):
+				if _btn_game_over_retry:
+					_btn_game_over_retry.grab_focus()
 		return
+
 	if paused:
+		var vp = get_viewport()
+		if vp and vp.gui_get_focus_owner() == null:
+			if event.is_action_pressed("ui_up") or event.is_action_pressed("up") or \
+			   event.is_action_pressed("ui_down") or event.is_action_pressed("down") or \
+			   event.is_action_pressed("ui_accept"):
+				if _btn_pause_resume:
+					_btn_pause_resume.grab_focus()
 		return
 
 	# Se desafio matemático está ativo, processa as respostas via teclado:
@@ -754,6 +794,8 @@ func _trigger_game_over() -> void:
 
 	if _game_over_panel:
 		_game_over_panel.visible = true
+		if _btn_game_over_retry:
+			_btn_game_over_retry.call_deferred("grab_focus")
 		# Atualiza dados do game over
 		var title_lbl = _game_over_panel.get_meta("title_label") as Label
 		var score_lbl = _game_over_panel.get_meta("score_label") as Label
@@ -785,6 +827,8 @@ func _toggle_pause() -> void:
 	paused = not paused
 	if _pause_panel:
 		_pause_panel.visible = paused
+		if paused and _btn_pause_resume:
+			_btn_pause_resume.call_deferred("grab_focus")
 	if music_player:
 		if paused:
 			music_player.stream_paused = true
@@ -815,6 +859,10 @@ func _on_config_keys_pressed() -> void:
 		kb_canvas.queue_free()
 		if paused and not game_over_active and _pause_panel:
 			_pause_panel.visible = true
+			if _btn_pause_keys:
+				_btn_pause_keys.call_deferred("grab_focus")
+			elif _btn_pause_resume:
+				_btn_pause_resume.call_deferred("grab_focus")
 		setup_receptors()
 	)
 

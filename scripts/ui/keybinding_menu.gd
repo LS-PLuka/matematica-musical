@@ -55,8 +55,10 @@ func _get_key_name_for_action(action: String) -> String:
 	var events = InputMap.action_get_events(action)
 	for ev in events:
 		if ev is InputEventKey:
-			var keycode = (ev as InputEventKey).physical_keycode
-			return OS.get_keycode_string(keycode)
+			var ikey = ev as InputEventKey
+			var keycode = ikey.physical_keycode if ikey.physical_keycode != KEY_NONE else ikey.keycode
+			if keycode != KEY_NONE:
+				return OS.get_keycode_string(keycode)
 	return "?"
 
 # ─── CONSTRUÇÃO DA INTERFACE ──────────────────────────────────────────────
@@ -321,7 +323,7 @@ func _input(event: InputEvent) -> void:
 		return
 
 	var key_event = event as InputEventKey
-	var keycode   = key_event.physical_keycode
+	var keycode   = key_event.physical_keycode if key_event.physical_keycode != KEY_NONE else key_event.keycode
 
 	# ESC: cancela captura em andamento OU fecha o menu
 	if keycode == KEY_ESCAPE:
@@ -337,6 +339,18 @@ func _input(event: InputEvent) -> void:
 		_finish_capture(key_event)
 		get_viewport().set_input_as_handled()
 		return
+
+	# Se nenhum botão está focado, recupera o foco no primeiro botão ao navegar
+	var vp = get_viewport()
+	if vp and vp.gui_get_focus_owner() == null:
+		if event.is_action_pressed("ui_up") or event.is_action_pressed("up") or \
+		   event.is_action_pressed("ui_down") or event.is_action_pressed("down") or \
+		   event.is_action_pressed("ui_left") or event.is_action_pressed("left") or \
+		   event.is_action_pressed("ui_right") or event.is_action_pressed("right") or \
+		   event.is_action_pressed("ui_accept"):
+			_grab_initial_focus()
+			vp.set_input_as_handled()
+			return
 
 	# Atalhos de teclado globais quando nenhuma captura está ativa
 	match keycode:
@@ -363,7 +377,9 @@ func _on_key_button_pressed(action: String) -> void:
 	_update_nav_hint("Pressione qualquer tecla  ·  ESC cancela")
 
 func _finish_capture(key_event: InputEventKey) -> void:
-	var keycode  = key_event.physical_keycode
+	var keycode = key_event.physical_keycode if key_event.physical_keycode != KEY_NONE else key_event.keycode
+	if keycode == KEY_NONE:
+		return
 	var key_name = OS.get_keycode_string(keycode)
 	var action   = _awaiting_input_for
 
@@ -435,46 +451,21 @@ func _on_save_pressed() -> void:
 	_set_status("✔  Teclas salvas com sucesso!", Color("#06D6A0"))
 
 func _apply_keybindings() -> void:
-	for action_info in ACTIONS:
-		var action: String   = action_info["action"]
-		var key_name: String = _current_keys[action]
-
-		var old_events = InputMap.action_get_events(action)
-		for ev in old_events:
-			if ev is InputEventKey:
-				InputMap.action_erase_event(action, ev)
-
-		var new_event = InputEventKey.new()
-		var custom_keycode = OS.find_keycode_from_string(key_name)
-		new_event.physical_keycode = custom_keycode
-		InputMap.action_add_event(action, new_event)
-
-		var arrow_map = {"left": KEY_LEFT, "down": KEY_DOWN, "up": KEY_UP, "right": KEY_RIGHT}
-		var def_arrow: Key = arrow_map.get(action, KEY_NONE)
-		if def_arrow != KEY_NONE and def_arrow != custom_keycode:
-			var arrow_ev = InputEventKey.new()
-			arrow_ev.physical_keycode = def_arrow
-			InputMap.action_add_event(action, arrow_ev)
+	GameManager.apply_keybindings(_current_keys)
 
 func _save_to_file() -> void:
-	var cfg = ConfigFile.new()
-	for action_info in ACTIONS:
-		var action: String = action_info["action"]
-		cfg.set_value("rhythm_keys", action, _current_keys[action])
-	cfg.save(CONFIG_PATH)
+	GameManager.save_keybindings(_current_keys)
 
 func _on_reset_pressed() -> void:
 	if not _awaiting_input_for.is_empty():
 		_cancel_capture()
-	InputMap.load_from_project_settings()
+	GameManager.reset_keybindings_to_default()
 	_load_current_bindings()
 	for action_info in ACTIONS:
 		var action: String = action_info["action"]
 		if _key_buttons.has(action):
 			(_key_buttons[action] as Button).text = "[ %s ]" % _current_keys[action]
 	_set_status("↺  Teclas padrão restauradas.", Color("#5CE1E6"))
-	if FileAccess.file_exists(CONFIG_PATH):
-		DirAccess.remove_absolute(CONFIG_PATH)
 
 func _on_close_pressed() -> void:
 	if not _awaiting_input_for.is_empty():

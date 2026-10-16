@@ -96,51 +96,131 @@ func get_difficulty_color() -> Color:
 func get_difficulty_description() -> String:
 	return DIFFICULTY_DESCRIPTIONS.get(selected_difficulty, "")
 
+const RHYTHM_TO_UI_ACTION := {
+	"left": "ui_left",
+	"down": "ui_down",
+	"up": "ui_up",
+	"right": "ui_right"
+}
+
+const DEFAULT_WASD_KEYS := {
+	"left": KEY_A,
+	"down": KEY_S,
+	"up": KEY_W,
+	"right": KEY_D
+}
+
 func _load_keybindings() -> void:
 	if not FileAccess.file_exists(KEYBINDING_CONFIG_PATH):
-		_ensure_arrow_keys_registered()
-		return  # usa bindings padrão do projeto
+		reset_keybindings_to_default()
+		return
 
 	var cfg = ConfigFile.new()
 	if cfg.load(KEYBINDING_CONFIG_PATH) != OK:
 		push_warning("GameManager: falha ao carregar keybindings.cfg")
-		_ensure_arrow_keys_registered()
+		reset_keybindings_to_default()
 		return
 
+	var bindings: Dictionary = {}
 	for action in RHYTHM_ACTIONS:
 		var key_name: String = cfg.get_value("rhythm_keys", action, "")
+		if not key_name.is_empty():
+			bindings[action] = key_name
+
+	apply_keybindings(bindings)
+
+func apply_keybindings(bindings: Dictionary) -> void:
+	for action in RHYTHM_ACTIONS:
+		var key_name: String = bindings.get(action, "")
 		var keycode: Key = OS.find_keycode_from_string(key_name) if not key_name.is_empty() else KEY_NONE
 
-		# Remove eventos de teclado antigos
+		# 1. Atualiza a ação de ritmo
 		var old_events = InputMap.action_get_events(action)
 		for ev in old_events:
 			if ev is InputEventKey:
 				InputMap.action_erase_event(action, ev)
 
-		# Registra a tecla customizada
+		# Tecla customizada primeiro (para ser a principal identificada)
 		if keycode != KEY_NONE:
 			var new_event = InputEventKey.new()
 			new_event.physical_keycode = keycode
+			new_event.keycode = keycode
 			InputMap.action_add_event(action, new_event)
 
-		# Garante que a setinha padrão correspondente SEMPRE funcione em paralelo
-		var default_arrow_key: Key = DEFAULT_ARROW_KEYS.get(action, KEY_NONE)
-		if default_arrow_key != KEY_NONE and default_arrow_key != keycode:
+		var def_arrow: Key = DEFAULT_ARROW_KEYS.get(action, KEY_NONE)
+		# Se a tecla customizada não for uma setinha, mantém a setinha correspondente ativa como secundária
+		if def_arrow != KEY_NONE and keycode != def_arrow and not (keycode in DEFAULT_ARROW_KEYS.values()):
 			var arrow_ev = InputEventKey.new()
-			arrow_ev.physical_keycode = default_arrow_key
+			arrow_ev.physical_keycode = def_arrow
+			arrow_ev.keycode = def_arrow
 			InputMap.action_add_event(action, arrow_ev)
 
-func _ensure_arrow_keys_registered() -> void:
+		# 2. Sincroniza a ação de navegação de UI correspondente (ui_left, ui_down, ui_up, ui_right)
+		var ui_action: String = RHYTHM_TO_UI_ACTION.get(action, "")
+		if not ui_action.is_empty():
+			_sync_ui_action(ui_action, def_arrow, keycode)
+
+func _sync_ui_action(ui_action: String, default_arrow: Key, custom_key: Key) -> void:
+	if not InputMap.has_action(ui_action):
+		InputMap.add_action(ui_action)
+
+	# Remove eventos de teclado antigos da ação de UI
+	var old_ui_events = InputMap.action_get_events(ui_action)
+	for ev in old_ui_events:
+		if ev is InputEventKey:
+			InputMap.action_erase_event(ui_action, ev)
+
+	# Adiciona a setinha padrão correspondente (sempre disponível na UI)
+	if default_arrow != KEY_NONE:
+		var arrow_ev = InputEventKey.new()
+		arrow_ev.physical_keycode = default_arrow
+		arrow_ev.keycode = default_arrow
+		InputMap.action_add_event(ui_action, arrow_ev)
+
+	# Adiciona a tecla direcional customizada para navegar a interface
+	if custom_key != KEY_NONE and custom_key != default_arrow:
+		var custom_ev = InputEventKey.new()
+		custom_ev.physical_keycode = custom_key
+		custom_ev.keycode = custom_key
+		InputMap.action_add_event(ui_action, custom_ev)
+
+func save_keybindings(bindings: Dictionary) -> void:
+	apply_keybindings(bindings)
+	var cfg = ConfigFile.new()
 	for action in RHYTHM_ACTIONS:
-		var default_arrow_key: Key = DEFAULT_ARROW_KEYS.get(action, KEY_NONE)
-		if default_arrow_key != KEY_NONE:
-			var already_has = false
-			for ev in InputMap.action_get_events(action):
-				if ev is InputEventKey and ev.physical_keycode == default_arrow_key:
-					already_has = true
-					break
-			if not already_has:
-				var arrow_ev = InputEventKey.new()
-				arrow_ev.physical_keycode = default_arrow_key
-				InputMap.action_add_event(action, arrow_ev)
+		if bindings.has(action):
+			cfg.set_value("rhythm_keys", action, bindings[action])
+	cfg.save(KEYBINDING_CONFIG_PATH)
+
+func reset_keybindings_to_default() -> void:
+	InputMap.load_from_project_settings()
+	for action in RHYTHM_ACTIONS:
+		var def_arrow: Key = DEFAULT_ARROW_KEYS.get(action, KEY_NONE)
+		var def_wasd: Key = DEFAULT_WASD_KEYS.get(action, KEY_NONE)
+		var ui_action: String = RHYTHM_TO_UI_ACTION.get(action, "")
+
+		_ensure_key_on_action(action, def_arrow)
+		_ensure_key_on_action(action, def_wasd)
+
+		if not ui_action.is_empty():
+			_ensure_key_on_action(ui_action, def_arrow)
+			_ensure_key_on_action(ui_action, def_wasd)
+
+	if FileAccess.file_exists(KEYBINDING_CONFIG_PATH):
+		DirAccess.remove_absolute(KEYBINDING_CONFIG_PATH)
+
+func _ensure_key_on_action(action: String, keycode: Key) -> void:
+	if keycode == KEY_NONE:
+		return
+	if not InputMap.has_action(action):
+		InputMap.add_action(action)
+	for ev in InputMap.action_get_events(action):
+		if ev is InputEventKey:
+			var ik = ev as InputEventKey
+			if ik.physical_keycode == keycode or ik.keycode == keycode:
+				return
+	var new_ev = InputEventKey.new()
+	new_ev.physical_keycode = keycode
+	new_ev.keycode = keycode
+	InputMap.action_add_event(action, new_ev)
 

@@ -12,11 +12,30 @@ var _badge_unlocked: Label = null
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
 
+	_setup_difficulty_feature()
+	_setup_menu_focus_chain()
+
 	if start:
-		start.grab_focus()
+		start.call_deferred("grab_focus")
 
 	_animar_tv_ligando()
-	_setup_difficulty_feature()
+
+func _setup_menu_focus_chain() -> void:
+	var botoes = find_child("Botoes") as VBoxContainer
+	if not botoes:
+		return
+	var buttons: Array[Button] = []
+	for child in botoes.get_children():
+		if child is Button and child.visible:
+			buttons.append(child)
+	for i in range(buttons.size()):
+		var btn = buttons[i]
+		var prev = buttons[(i - 1 + buttons.size()) % buttons.size()]
+		var nxt = buttons[(i + 1) % buttons.size()]
+		btn.focus_neighbor_top = btn.get_path_to(prev)
+		btn.focus_neighbor_bottom = btn.get_path_to(nxt)
+		btn.focus_previous = btn.get_path_to(prev)
+		btn.focus_next = btn.get_path_to(nxt)
 
 func _setup_difficulty_feature() -> void:
 	if not GameManager.is_game_completed:
@@ -79,6 +98,7 @@ func _setup_difficulty_feature() -> void:
 		botoes.move_child(_lbl_difficulty_info, 3)
 
 	_update_difficulty_display()
+	_setup_menu_focus_chain()
 
 func _update_difficulty_display() -> void:
 	if _btn_difficulty:
@@ -105,6 +125,20 @@ func _unhandled_input(event: InputEvent) -> void:
 			GameManager.save_game_completed()
 			_setup_difficulty_feature()
 			_update_difficulty_display()
+
+	if not event.is_pressed() or event.is_echo():
+		return
+
+	# Se nenhum botão estiver focado, restaura o foco no primeiro botão navegável
+	var viewport = get_viewport()
+	if viewport and viewport.gui_get_focus_owner() == null:
+		if event.is_action_pressed("ui_up") or event.is_action_pressed("up") or \
+		   event.is_action_pressed("ui_down") or event.is_action_pressed("down") or \
+		   event.is_action_pressed("ui_left") or event.is_action_pressed("left") or \
+		   event.is_action_pressed("ui_right") or event.is_action_pressed("right") or \
+		   event.is_action_pressed("ui_accept"):
+			_restore_menu_focus()
+			viewport.set_input_as_handled()
 
 func _animar_tv_ligando() -> void:
 	if ResourceLoader.exists(CAMINHO_AUDIO_TV):
@@ -167,7 +201,15 @@ func _on_keybinding_pressed() -> void:
 		if is_instance_valid(vhs):
 			vhs.visible = true
 		kb_canvas.queue_free()  # remove canvas + keybinding_menu
+		call_deferred("_restore_menu_focus")
 	)
+
+func _restore_menu_focus() -> void:
+	var btn_teclas = find_child("Teclas") as Button
+	if btn_teclas and btn_teclas.is_inside_tree() and btn_teclas.is_visible_in_tree():
+		btn_teclas.grab_focus()
+	elif start and start.is_inside_tree() and start.is_visible_in_tree():
+		start.grab_focus()
 
 func _on_focus_entered() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
