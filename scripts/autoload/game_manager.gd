@@ -53,6 +53,8 @@ func _ready() -> void:
 	_load_keybindings()
 	_load_save_data()
 
+var high_score: int = 0
+
 func _load_save_data() -> void:
 	if not FileAccess.file_exists(SAVE_CONFIG_PATH):
 		return
@@ -61,6 +63,7 @@ func _load_save_data() -> void:
 		is_game_completed = cfg.get_value("progression", "game_completed", false)
 		var diff_val = cfg.get_value("settings", "difficulty", int(Difficulty.NORMAL))
 		selected_difficulty = clampi(diff_val, 0, 3) as Difficulty
+		high_score = cfg.get_value("stats", "high_score", 0)
 
 func save_game_completed() -> void:
 	var first_time = not is_game_completed
@@ -72,6 +75,17 @@ func save_game_completed() -> void:
 	cfg.save(SAVE_CONFIG_PATH)
 	if first_time:
 		game_completed_unlocked.emit()
+		
+func save_high_score(new_score: int) -> bool:
+	if new_score > high_score:
+		high_score = new_score
+		var cfg = ConfigFile.new()
+		if FileAccess.file_exists(SAVE_CONFIG_PATH):
+			cfg.load(SAVE_CONFIG_PATH)
+		cfg.set_value("stats", "high_score", high_score)
+		cfg.save(SAVE_CONFIG_PATH)
+		return true
+	return false
 
 func set_difficulty(diff: Difficulty) -> void:
 	selected_difficulty = diff
@@ -224,3 +238,9 @@ func _ensure_key_on_action(action: String, keycode: Key) -> void:
 	new_ev.keycode = keycode
 	InputMap.action_add_event(action, new_ev)
 
+func reset_save_data() -> void:
+	is_game_completed = false
+	selected_difficulty = Difficulty.NORMAL
+	high_score = 0 
+	if FileAccess.file_exists(SAVE_CONFIG_PATH):
+		DirAccess.remove_absolute(SAVE_CONFIG_PATH)
