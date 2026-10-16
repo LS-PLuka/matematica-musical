@@ -8,17 +8,39 @@ const KEYBINDING_SCENE = preload("res://scenes/ui/keybinding_menu.tscn")
 var _btn_difficulty: Button = null
 var _lbl_difficulty_info: Label = null
 var _badge_unlocked: Label = null
+var _lbl_high_score: Label = null
+
+var _tempo_segurando_reset: float = 0.0
+var _reset_ativado: bool = false
+const TEMPO_PARA_RESET := 5.0
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
 
 	_setup_difficulty_feature()
+	_setup_high_score_display() 
 	_setup_menu_focus_chain()
 
 	if start:
 		start.call_deferred("grab_focus")
 
 	_animar_tv_ligando()
+
+func _process(delta: float) -> void:
+	if _reset_ativado:
+		return
+		
+	# Na Godot 4, usamos apenas KEY_CTRL para ambos os lados
+	var segurando_ctrl = Input.is_physical_key_pressed(KEY_CTRL)
+	var segurando_backspace = Input.is_physical_key_pressed(KEY_BACKSPACE)
+	
+	if segurando_ctrl and segurando_backspace:
+		_tempo_segurando_reset += delta
+		if _tempo_segurando_reset >= TEMPO_PARA_RESET:
+			_reset_ativado = true
+			_executar_reset_secreto()
+	else:
+		_tempo_segurando_reset = 0.0
 
 func _setup_menu_focus_chain() -> void:
 	var botoes = find_child("Botoes") as VBoxContainer
@@ -119,12 +141,17 @@ func _on_difficulty_pressed() -> void:
 		tw.tween_property(_btn_difficulty, "scale", Vector2(1.0, 1.0), 0.08)
 
 func _unhandled_input(event: InputEvent) -> void:
-	# Atalho F2 para desenvolvedor / testes rápidos de desbloqueio
 	if event is InputEventKey and event.pressed and not event.echo:
-		if event.physical_keycode == KEY_F2 or event.keycode == KEY_F2:
+		var tecla_pressionada = event.physical_keycode
+		if tecla_pressionada == KEY_NONE:
+			tecla_pressionada = event.keycode
+
+		# Atalho F2 para desenvolvedor / testes rápidos de desbloqueio
+		if tecla_pressionada == KEY_F2:
 			GameManager.save_game_completed()
 			_setup_difficulty_feature()
-			_update_difficulty_display()
+			if has_method("_update_difficulty_display"):
+				_update_difficulty_display()
 
 	if not event.is_pressed() or event.is_echo():
 		return
@@ -139,6 +166,32 @@ func _unhandled_input(event: InputEvent) -> void:
 		   event.is_action_pressed("ui_accept"):
 			_restore_menu_focus()
 			viewport.set_input_as_handled()
+
+func _executar_reset_secreto() -> void:
+	_tempo_segurando_reset = 0.0
+	
+	if GameManager.has_method("reset_save_data"):
+		GameManager.reset_save_data()
+		
+	# Reseta as teclas mapeadas para o padrão
+	if GameManager.has_method("reset_keybindings_to_default"):
+		GameManager.reset_keybindings_to_default()
+	
+	var flash_canvas := CanvasLayer.new()
+	flash_canvas.layer = 100
+	add_child(flash_canvas)
+	
+	var flash := ColorRect.new()
+	flash.set_anchors_preset(Control.PRESET_FULL_RECT)
+	flash.color = Color(0.8, 0.1, 0.1, 0.8) 
+	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	flash_canvas.add_child(flash)
+	
+	var tw = create_tween()
+	tw.tween_property(flash, "modulate:a", 0.0, 0.5)
+	
+	await tw.finished
+	get_tree().reload_current_scene()
 
 func _animar_tv_ligando() -> void:
 	if ResourceLoader.exists(CAMINHO_AUDIO_TV):
@@ -182,8 +235,6 @@ func _on_exit_pressed() -> void:
 	get_tree().quit()
 
 func _on_keybinding_pressed() -> void:
-	# Adiciona em CanvasLayer dedicado para garantir que fique acima de
-	# todos os outros nós e intercepte corretamente os eventos de mouse.
 	var kb_canvas := CanvasLayer.new()
 	kb_canvas.layer = 10
 	add_child(kb_canvas)
@@ -191,16 +242,16 @@ func _on_keybinding_pressed() -> void:
 	var kb_menu = KEYBINDING_SCENE.instantiate()
 	kb_canvas.add_child(kb_menu)
 
-	# O efeito VHS está numa CanvasLayer que renderiza por cima de tudo —
-	# esconde enquanto as configs estão abertas.
 	var vhs = find_child("VHSeffect") as CanvasLayer
 	if vhs:
 		vhs.visible = false
 
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+
 	kb_menu.closed.connect(func():
 		if is_instance_valid(vhs):
 			vhs.visible = true
-		kb_canvas.queue_free()  # remove canvas + keybinding_menu
+		kb_canvas.queue_free() 
 		call_deferred("_restore_menu_focus")
 	)
 
@@ -216,3 +267,34 @@ func _on_focus_entered() -> void:
 
 func _on_focus_exited() -> void:
 	pass
+
+func _setup_high_score_display() -> void:
+	if GameManager.high_score <= 0:
+		if _lbl_high_score and is_instance_valid(_lbl_high_score):
+			_lbl_high_score.queue_free()
+			_lbl_high_score = null
+		return
+		
+	if not _lbl_high_score:
+		var font = load("res://assets/fonts/joystix monospace.otf") as FontFile
+		_lbl_high_score = Label.new()
+		
+		_lbl_high_score.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+		_lbl_high_score.offset_left = -350.0
+		_lbl_high_score.offset_top = -220.0
+		_lbl_high_score.offset_right = -80.0   
+		_lbl_high_score.offset_bottom = -50.0 
+		_lbl_high_score.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		_lbl_high_score.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+		
+		if font:
+			_lbl_high_score.add_theme_font_override("font", font)
+		
+		_lbl_high_score.add_theme_font_size_override("font_size", 22)       
+		_lbl_high_score.add_theme_color_override("font_color", Color("008cfeff"))
+		_lbl_high_score.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+		_lbl_high_score.add_theme_constant_override("outline_size", 6)       
+		
+		add_child(_lbl_high_score)
+		
+	_lbl_high_score.text = "HI-SCORE: %d" % GameManager.high_score
