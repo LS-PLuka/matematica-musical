@@ -629,11 +629,8 @@ func _input(event: InputEvent) -> void:
 	if paused:
 		var vp = get_viewport()
 		if vp and vp.gui_get_focus_owner() == null:
-			if event.is_action_pressed("ui_up") or event.is_action_pressed("up") or \
-			   event.is_action_pressed("ui_down") or event.is_action_pressed("down") or \
-			   event.is_action_pressed("ui_accept"):
-				if _btn_pause_resume:
-					_btn_pause_resume.grab_focus()
+			if _btn_pause_resume:
+				_btn_pause_resume.grab_focus()
 		return
 
 	# Se desafio matemático está ativo, processa as respostas via teclado:
@@ -817,6 +814,7 @@ func _on_retry_pressed() -> void:
 	get_tree().reload_current_scene()
 
 func _on_menu_pressed() -> void:
+	get_tree().paused = false 
 	get_tree().change_scene_to_file("res://scenes/ui/menu_principal.tscn")
 
 # ─── PAUSA ─────────────────────────────────────────────────────────────────
