@@ -1,6 +1,5 @@
 extends Control
 
-
 func _ready() -> void:
 	QuizManager.question_loaded.connect(_on_question_loaded)
 	QuizManager.answer_correct.connect(_on_answer_correct)
@@ -13,7 +12,18 @@ func _ready() -> void:
 	%ButtonC.pressed.connect(func(): QuizManager.submit_answer("C"))
 	%ButtonContinue.pressed.connect(_on_continue_pressed)
 
+	_setup_background_music()
 	QuizManager.load_quiz("res://data/quizzes/quiz_ato_ii.json")
+
+func _setup_background_music() -> void:
+	# Usa o AudioStreamPlayer já existente na cena (Trilha 2)
+	# e ajusta o volume para ser uma música de fundo agradável
+	var player = find_child("AudioStreamPlayer") as AudioStreamPlayer
+	if player:
+		player.volume_db = -10.0
+		if not player.playing:
+			player.play()
+
 
 
 func _unhandled_input(event: InputEvent) -> void:

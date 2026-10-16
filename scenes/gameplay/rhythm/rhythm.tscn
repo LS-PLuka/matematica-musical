@@ -171,7 +171,7 @@ theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("4_6bb1s")
 theme_override_font_sizes/font_size = 9
 text = "COLCHEIA
-½ TEMPO"
+1/2 TEMPO"
 horizontal_alignment = 1
 
 [node name="TargetHitLine" type="ColorRect" parent="ChalkboardTrack" unique_id=200000010]
@@ -212,7 +212,7 @@ position = Vector2(776, 520)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1930153717]
 
-[node name="Control" type="Control" parent="CanvasLayer" unique_id=76749654 node_paths=PackedStringArray("score_value_label", "combo_label", "last_state", "compass_label", "equation_label", "completed_label", "bpm_label", "metronome_dots_container", "measure_bar_container")]
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=76749654 node_paths=PackedStringArray("score_value_label", "combo_label", "last_state", "compass_label", "bpm_label", "metronome_dots_container", "measure_bar_container")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -225,8 +225,6 @@ score_value_label = NodePath("RightPanel/VBoxContainer/ScoreValue")
 combo_label = NodePath("RightPanel/VBoxContainer/ComboLabel")
 last_state = NodePath("last_state")
 compass_label = NodePath("LeftPanel/VBoxContainer/CompassLabel")
-equation_label = NodePath("LeftPanel/VBoxContainer/EquationLabel")
-completed_label = NodePath("LeftPanel/VBoxContainer/CompletedLabel")
 bpm_label = NodePath("LeftPanel/VBoxContainer/BpmLabel")
 metronome_dots_container = NodePath("LeftPanel/VBoxContainer/MetronomeDots")
 measure_bar_container = NodePath("LeftPanel/VBoxContainer/MeasureBlocks")
@@ -236,12 +234,12 @@ layout_mode = 0
 offset_left = 18.0
 offset_top = 25.0
 offset_right = 282.0
-offset_bottom = 615.0
+offset_bottom = 205.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_hud_panel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/LeftPanel" unique_id=200000041]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000042]
 layout_mode = 2
@@ -249,12 +247,9 @@ theme_override_colors/font_color = Color(1, 0.86, 0.35, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 13
 text = "COMPASSO 4/4"
 horizontal_alignment = 1
-
-[node name="HSeparator1" type="HSeparator" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000043]
-layout_mode = 2
 
 [node name="BpmLabel" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000044]
 layout_mode = 2
@@ -263,7 +258,7 @@ theme_override_colors/font_color = Color(0.36, 0.88, 0.9, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 12
 text = "⚡ METRÔNOMO: 120"
 horizontal_alignment = 1
 
@@ -277,7 +272,7 @@ layout_mode = 2
 pivot_offset = Vector2(8, 10)
 theme_override_colors/font_color = Color(1, 0.86, 0.35, 1)
 theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "●"
 
 [node name="Dot2" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer/MetronomeDots" unique_id=200000047]
@@ -285,7 +280,7 @@ layout_mode = 2
 pivot_offset = Vector2(8, 10)
 theme_override_colors/font_color = Color(1, 1, 1, 0.4)
 theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "○"
 
 [node name="Dot3" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer/MetronomeDots" unique_id=200000048]
@@ -293,7 +288,7 @@ layout_mode = 2
 pivot_offset = Vector2(8, 10)
 theme_override_colors/font_color = Color(1, 1, 1, 0.4)
 theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "○"
 
 [node name="Dot4" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer/MetronomeDots" unique_id=200000049]
@@ -301,23 +296,13 @@ layout_mode = 2
 pivot_offset = Vector2(8, 10)
 theme_override_colors/font_color = Color(1, 1, 1, 0.4)
 theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "○"
 
-[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000050]
-layout_mode = 2
-
-[node name="MeasureGuideLabel" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000051]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 0.85)
-theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 10
-text = "BARRA DO COMPASSO:"
-
 [node name="MeasureBlocks" type="HBoxContainer" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000052]
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 4
 
 [node name="Beat1" type="ProgressBar" parent="CanvasLayer/Control/LeftPanel/VBoxContainer/MeasureBlocks" unique_id=200000053]
 layout_mode = 2
@@ -363,40 +348,19 @@ theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("4_6bb1s")
 theme_override_font_sizes/font_size = 11
 text = "Compasso: 0.0 / 4.0t"
-
-[node name="EquationLabel" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000058]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 0.85)
-theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 10
-text = "Equação: (Toque as notas...)"
-autowrap_mode = 2
-
-[node name="HSeparator3" type="HSeparator" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000059]
-layout_mode = 2
-
-[node name="CompletedLabel" type="Label" parent="CanvasLayer/Control/LeftPanel/VBoxContainer" unique_id=200000060]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.86, 0.35, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
-theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 11
-text = "Compassos Fechados: 0 ★"
-autowrap_mode = 2
+horizontal_alignment = 1
 
 [node name="RightPanel" type="PanelContainer" parent="CanvasLayer/Control" unique_id=200000070]
 layout_mode = 0
 offset_left = 870.0
 offset_top = 25.0
 offset_right = 1134.0
-offset_bottom = 615.0
+offset_bottom = 155.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_hud_panel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/RightPanel" unique_id=200000071]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="ScoreTitle" type="Label" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000072]
 layout_mode = 2
@@ -404,7 +368,7 @@ theme_override_colors/font_color = Color(1, 0.86, 0.35, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 13
 text = "PONTUAÇÃO"
 horizontal_alignment = 1
 
@@ -414,7 +378,7 @@ theme_override_colors/font_color = Color(0.04, 0.84, 0.63, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = "0"
 horizontal_alignment = 1
 
@@ -427,45 +391,6 @@ theme_override_fonts/font = ExtResource("4_6bb1s")
 theme_override_font_sizes/font_size = 12
 text = "COMBO: x1 (0)"
 horizontal_alignment = 1
-
-[node name="HSeparator1" type="HSeparator" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000075]
-layout_mode = 2
-
-[node name="GuideTitle" type="Label" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000076]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.86, 0.35, 1)
-theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 11
-text = "GUIA DAS NOTAS:"
-
-[node name="GuideBody" type="Label" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000077]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 0.85)
-theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 9
-text = "A / ← : Semibreve
-   = 4.0 tempos
-
-S / ↓ : Mínima
-   = 2.0 tempos
-
-W / ↑ : Semínima
-   = 1.0 tempo
-
-D / → : Colcheia
-   = 0.5 tempo (½)"
-
-[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000078]
-layout_mode = 2
-
-[node name="GuideHint" type="Label" parent="CanvasLayer/Control/RightPanel/VBoxContainer" unique_id=200000079]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.9, 0.5, 0.9)
-theme_override_fonts/font = ExtResource("4_6bb1s")
-theme_override_font_sizes/font_size = 9
-text = "OBJETIVO:
-Acerte na Linha de Ritmo para somar 4 tempos e completar compassos!"
-autowrap_mode = 2
 
 [node name="last_state" type="Label" parent="CanvasLayer/Control" unique_id=1673309836]
 layout_mode = 1
