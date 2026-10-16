@@ -145,3 +145,9 @@ O jogo roda com o renderer de compatibilidade do Godot e usa apenas recursos loc
 | Roteiro e pedagogia musical | Gabriel Cassiano e Lucas Cury |
 
 Projeto educacional desenvolvido com agradecimentos à **FATEC São Sebastião** e à **Expo Game Jam 2026**.
+
+---
+
+# Drive .exe
+
+https://drive.google.com/drive/folders/1EnTqt7DvaWrGgbOORay5tBQvSztcixi5?usp=sharing
